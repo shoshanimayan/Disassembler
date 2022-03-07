@@ -2,6 +2,7 @@
   "dependencies": {
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.tilemap": "1.0.0",
+    "com.unity.addressables": "1.16.19",
     "com.unity.ads": "3.7.1",
     "com.unity.analytics": "3.5.3",
     "com.unity.collab-proxy": "1.5.7",
@@ -14,7 +15,9 @@
     "com.unity.timeline": "1.5.5",
     "com.unity.ugui": "1.0.0",
     "com.unity.visualscripting": "1.6.1",
-    "com.unity.xr.legacyinputhelpers": "2.1.7",
+    "com.unity.xr.interaction.toolkit": "1.0.0-pre.8",
+    "com.unity.xr.management": "4.2.1",
+    "com.unity.xr.oculus": "1.9.1",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
