@@ -55,7 +55,7 @@ namespace Gameplay
         }
 
 
-        void Update()
+        private void Update()
         {
             if (_shouldGetHandRotation)
             {
@@ -87,7 +87,7 @@ namespace Gameplay
                                 return;
                             else
                             {
-                                RotateDialClockwise();
+                               // RotateDialClockwise();
                                 _startAngle = currentAngle;
                             }
                         }
@@ -113,7 +113,7 @@ namespace Gameplay
                         }
                         else if (_startAngle > currentAngle)
                         {
-                            RotateDialClockwise();
+                         //   RotateDialClockwise();
                             _startAngle = currentAngle;
                         }
                     }
@@ -136,6 +136,7 @@ namespace Gameplay
                                                       _linkedDial.localEulerAngles.z + _snapRotationAmount);
 
             RotationChanged(_linkedDial.localEulerAngles.z);
+            print(_linkedDial.localEulerAngles);
 
         }
 
@@ -145,18 +146,30 @@ namespace Gameplay
                                                       _linkedDial.localEulerAngles.y,
                                                       _linkedDial.localEulerAngles.z - _snapRotationAmount);
 
-            RotationChanged(_linkedDial.localEulerAngles.z);
+            print(_linkedDial.localEulerAngles);
+            print(_linkedDial.eulerAngles);
+            RotationChanged(_linkedDial.localEulerAngles.y);
         }
 
         private void RotationChanged(float rotVal)
         {
-            if (rotVal > _goalRotationPercentage)
+            print(rotVal);
+            if (rotVal >= _goalRotationPercentage)
             {
                 if (!_activated) {
                     _activated = true;
                 _onReachedRotation.Invoke();
                 }
             }
+        }
+
+        ///////////////////////////////
+        //  PUBLIC API               //
+        ///////////////////////////////
+
+        public void DestroySelf()
+        {
+            Destroy(gameObject);
         }
     }
 }

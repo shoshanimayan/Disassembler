@@ -18,7 +18,13 @@ namespace General
 	class SaveData
 	{
 		public int HighScore;
-	
+		public string PlayerId;
+
+		public SaveData(int score, string id)
+		{
+			HighScore = score;
+			PlayerId = id;
+		}
 	}
 
 	public enum GameState { Menu, Play,Load}
@@ -56,11 +62,12 @@ namespace General
 			{
 
 #if UNITY_EDITOR
-
+				PlayerId = "unityEditor";
 #else
+				 PlayerId = "player";
 			//	_storyManager.CreateUser();
 #endif
-				SaveGame(PlayerId);
+				SaveGame(PlayerId,0);
 			}
 
 
@@ -143,10 +150,9 @@ namespace General
 		}
 
 
-		public void SaveGame(string ID)
+		public void SaveGame(string ID,int Score)
 		{
-			SaveData data = new SaveData();
-			data.HighScore = 0;
+			SaveData data = new SaveData(Score,ID);
 			
 		}
 

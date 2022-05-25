@@ -60,5 +60,10 @@ namespace Gameplay
 		//  PUBLIC API               //
 		///////////////////////////////
 
+		public void DestroySelf()
+		{
+			Destroy(gameObject);
+		}
+
 	}
 }

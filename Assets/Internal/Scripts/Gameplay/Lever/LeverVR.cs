@@ -25,14 +25,16 @@ namespace Lever
 		private void Start()
 		{
 			_hinge = GetComponent<HingeJoint>();
-			transform.localEulerAngles = new Vector3(0, 0, _hinge.limits.min);
+			transform.localEulerAngles = new Vector3(_hinge.limits.min, 0,0 );
 		}
 
 		private void CheckIfReachedMaxAngle()
 		{
-			if (_hinge.angle >= _hinge.limits.max &&_activated)
+			if (_hinge.angle >= _hinge.limits.max &&!_activated)
 			{
-				transform.localEulerAngles = new Vector3(0, 0, _hinge.limits.max);
+				_activated = true;
+				print(_activated);
+				transform.localEulerAngles = new Vector3(_hinge.limits.max, 0,0 );
 				GetComponent<Rigidbody>().isKinematic = true;
 				GetComponent<XRGrabInteractable>().enabled = false;
 				_onReachMax.Invoke();
@@ -46,9 +48,21 @@ namespace Lever
 		{
 			CheckIfReachedMaxAngle();
 		}
+
+
 		///////////////////////////////
 		//  PUBLIC API               //
 		///////////////////////////////
+		
+		public void DestroySelf()
+		{
+			Destroy(gameObject);
+		}
+
+		public void DebugAngle()
+		{
+			print(_hinge.angle);
+		}
 
 	}
 }
