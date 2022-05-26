@@ -23,12 +23,15 @@ namespace Gameplay
         private bool _requiresStartAngle = true;
         private bool _shouldGetHandRotation = false;
         private bool _activated;
+        private float _totalRotation;
+        private bool _canRotate;
         private XRGrabInteractable _grabInteractor => GetComponent<XRGrabInteractable>();
         ///////////////////////////////
         //  PRIVATE METHODS           //
         ///////////////////////////////
         private void OnEnable()
         {
+            _canRotate = true;
             _grabInteractor.selectEntered.AddListener(GrabbedBy);
             _grabInteractor.selectExited.AddListener(GrabEnd);
         }
@@ -57,7 +60,7 @@ namespace Gameplay
 
         private void Update()
         {
-            if (_shouldGetHandRotation)
+            if (_shouldGetHandRotation && _canRotate)
             {
                 var rotationAngle = GetInteractorRotation(); //gets the current controller angle
                 GetRotationDistance(rotationAngle);
@@ -129,34 +132,25 @@ namespace Gameplay
 
         private float CheckAngle(float currentAngle, float startAngle) => (360f - currentAngle) + startAngle;
 
-        private void RotateDialClockwise()
-        {
-            _linkedDial.localEulerAngles = new Vector3(_linkedDial.localEulerAngles.x,
-                                                      _linkedDial.localEulerAngles.y,
-                                                      _linkedDial.localEulerAngles.z + _snapRotationAmount);
-
-            RotationChanged(_linkedDial.localEulerAngles.z);
-            print(_linkedDial.localEulerAngles);
-
-        }
+        
 
         private void RotateDialAntiClockwise()
         {
-            _linkedDial.localEulerAngles = new Vector3(_linkedDial.localEulerAngles.x,
-                                                      _linkedDial.localEulerAngles.y,
-                                                      _linkedDial.localEulerAngles.z - _snapRotationAmount);
+            _linkedDial.eulerAngles = new Vector3(_linkedDial.eulerAngles.x,
+                                                      _linkedDial.eulerAngles.y,
+                                                      _linkedDial.eulerAngles.z + _snapRotationAmount);
 
-            print(_linkedDial.localEulerAngles);
-            print(_linkedDial.eulerAngles);
-            RotationChanged(_linkedDial.localEulerAngles.y);
+           ;
+            RotationChanged(_snapRotationAmount);
         }
 
         private void RotationChanged(float rotVal)
         {
-            print(rotVal);
-            if (rotVal >= _goalRotationPercentage)
+            _totalRotation += rotVal;
+            if (_totalRotation>= _goalRotationPercentage)
             {
                 if (!_activated) {
+                    _canRotate = false;
                     _activated = true;
                 _onReachedRotation.Invoke();
                 }
