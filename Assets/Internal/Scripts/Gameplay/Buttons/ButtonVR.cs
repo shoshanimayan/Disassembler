@@ -2,6 +2,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using General;
+
 namespace Gameplay
 {
 	public class ButtonVR: MonoBehaviour
@@ -22,7 +24,7 @@ namespace Gameplay
 		///////////////////////////////
 		private bool _isPressed;
 		private GameObject _presser;
-		private AudioSource _sound;
+		private AudioManager _audioManager { get { return AudioManager.Instance; } }
 
 
 		///////////////////////////////
@@ -30,7 +32,6 @@ namespace Gameplay
 		///////////////////////////////
 		private void Start()
 		{
-			_sound = GetComponent<AudioSource>();
 			_isPressed = false;
 		}
 
@@ -41,8 +42,9 @@ namespace Gameplay
 				_button.transform.localPosition = new Vector3(0,0.003f,0);
 				_onPresss.Invoke();
 				_isPressed = true;
-				_sound.Play();
 				_presser = other.gameObject;
+				_audioManager.PlayClip("click");
+
 			}
 		}
 
@@ -53,6 +55,8 @@ namespace Gameplay
 				_presser = null;
 				_isPressed = false;
 				_button.transform.localPosition = new Vector3(0, 0.015f, 0);
+				_audioManager.PlayClip("blip");
+
 				_onRelease.Invoke();
 			}
 		}

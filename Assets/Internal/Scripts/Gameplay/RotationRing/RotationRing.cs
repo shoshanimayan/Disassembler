@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.XR.Interaction.Toolkit;
+using General;
 
 namespace RotationRing
 {
@@ -20,6 +21,9 @@ namespace RotationRing
 		private XRBaseInteractor _interactor;
 		private bool _followHand;
 		private Vector3 _handOrigin;
+		private bool _canRotate => _gameState.CanRotate();
+		private GameStateController _gameState { get { return GameStateController.Instance; } }
+
 		///////////////////////////////
 		//  PRIVATE METHODS           //
 		///////////////////////////////
@@ -37,6 +41,7 @@ namespace RotationRing
 
 		private void GrabEnd(SelectExitEventArgs arg0)
 		{
+			_interactor = null;
 			_followHand = false;
 			_handOrigin = Vector3.zero;
 		}
@@ -47,13 +52,13 @@ namespace RotationRing
 			_interactor.GetComponent<XRDirectInteractor>().hideControllerOnSelect = true;
 			_followHand = true;
 			_handOrigin = _interactor.transform.position;
-			print("origin: "+ _handOrigin);
 
 		}
 
 		private float GetHandDirection(Vector3 CurrentHandPosition)
 		{
 			float direction = 0;
+			float distance = Mathf.Abs(CurrentHandPosition.x - _handOrigin.x);
 			if (CurrentHandPosition.x < _handOrigin.x) 
 			{
 				direction = 1;
@@ -62,15 +67,26 @@ namespace RotationRing
 			{
 				direction = -1;
 			}
-			print(direction);
-			return direction;
+			return direction* (distance * 5);
 		}
 
 		private void Update()
 		{
-			if (_followHand)
+			if (_followHand &&_canRotate)
 			{
 				_objectToRotate.transform.Rotate(0, Time.deltaTime * _speed * GetHandDirection(_interactor.transform.position), 0);
+			}
+			if (!_canRotate && _interactor)
+			{
+				_interactor = null;
+				_followHand = false;
+			}
+			if (_interactor)
+			{
+				if (Vector3.Distance(_interactor.transform.position, transform.position) > 1f)
+				{
+					GrabEnd(new SelectExitEventArgs());
+				}
 			}
 
 		}

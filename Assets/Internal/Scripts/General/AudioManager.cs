@@ -10,6 +10,7 @@ namespace General
         // INSPECTOR VARIABLES //
         /////////////////////////
         [SerializeField] private AudioClip[] _audioClips;
+        [SerializeField] private AudioClip[] _themeClips;
         /////////////////////////
         //  PRIVATE VARIABLES  //
         /////////////////////////
@@ -40,11 +41,22 @@ namespace General
 
         public void PlayMainTheme()
         {
+            _as.clip = _themeClips[0];
+
             _as.Play();
         }
-        public void StopMainTheme()
+     
+
+        public void PlayGameTheme()
+        {
+            _as.clip = _themeClips[1];
+            _as.Play();
+        }
+        public void StopTheme()
         {
             _as.Stop();
         }
+
+
     }
 }

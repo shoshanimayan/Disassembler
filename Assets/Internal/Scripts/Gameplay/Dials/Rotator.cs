@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using General;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.XR.Interaction.Toolkit;
 namespace Gameplay
@@ -25,6 +26,8 @@ namespace Gameplay
         private bool _activated;
         private float _totalRotation;
         private bool _canRotate;
+        private AudioManager _audioManager { get { return AudioManager.Instance; } }
+
         private XRGrabInteractable _grabInteractor => GetComponent<XRGrabInteractable>();
         ///////////////////////////////
         //  PRIVATE METHODS           //
@@ -67,7 +70,6 @@ namespace Gameplay
             }
         }
 
-        public float GetInteractorRotation() => _interactor.GetComponent<Transform>().eulerAngles.z;
 
         #region TheMath!
         private void GetRotationDistance(float currentAngle)
@@ -132,15 +134,11 @@ namespace Gameplay
 
         private float CheckAngle(float currentAngle, float startAngle) => (360f - currentAngle) + startAngle;
 
-        
-
         private void RotateDialAntiClockwise()
         {
             _linkedDial.eulerAngles = new Vector3(_linkedDial.eulerAngles.x,
                                                       _linkedDial.eulerAngles.y,
                                                       _linkedDial.eulerAngles.z + _snapRotationAmount);
-
-           ;
             RotationChanged(_snapRotationAmount);
         }
 
@@ -152,7 +150,9 @@ namespace Gameplay
                 if (!_activated) {
                     _canRotate = false;
                     _activated = true;
-                _onReachedRotation.Invoke();
+                    _audioManager.PlayClip("blip");
+
+                    _onReachedRotation.Invoke();
                 }
             }
         }
@@ -160,6 +160,8 @@ namespace Gameplay
         ///////////////////////////////
         //  PUBLIC API               //
         ///////////////////////////////
+
+        public float GetInteractorRotation() => _interactor.GetComponent<Transform>().eulerAngles.z;
 
         public void DestroySelf()
         {
