@@ -39,6 +39,11 @@ namespace General
 
         }
 
+        public void StopClip()
+        {
+            _asCamera.Stop();
+        }
+
         public void PlayMainTheme()
         {
             _as.clip = _themeClips[0];
