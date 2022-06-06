@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine.XR.Interaction.Toolkit;
 using General;
-
+using Gameplay;
 namespace Lever
 {
-	public class LeverVR: MonoBehaviour
+	public class LeverVR: Interactable
 	{
 
 		///////////////////////////////
@@ -38,7 +38,7 @@ namespace Lever
 
 		private void CheckIfReachedMaxAngle()
 		{
-			if (_hinge.angle >= _hinge.limits.max &&!_activated)
+			if (_hinge.angle >= _hinge.limits.max &&!_activated &&_interactable)
 			{
 				_activated = true;
 				print(_activated);
@@ -47,7 +47,9 @@ namespace Lever
 				GetComponent<XRGrabInteractable>().enabled = false;
 				_audioManager.PlayClip("blip");
 				_onReachMax.Invoke();
-				
+				_interactable = false;
+
+
 			}
 		}
 
@@ -67,6 +69,5 @@ namespace Lever
 		}
 
 		
-
 	}
 }

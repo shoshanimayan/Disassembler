@@ -5,7 +5,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 namespace Gameplay
 {
 
-    public class Rotator : MonoBehaviour
+    public class Rotator : Interactable
     {
         ///////////////////////////////
         //  INSPECTOR VARIABLES      //
@@ -25,7 +25,6 @@ namespace Gameplay
         private bool _shouldGetHandRotation = false;
         private bool _activated;
         private float _totalRotation;
-        private bool _canRotate;
         private AudioManager _audioManager { get { return AudioManager.Instance; } }
 
         private XRGrabInteractable _grabInteractor => GetComponent<XRGrabInteractable>();
@@ -34,7 +33,6 @@ namespace Gameplay
         ///////////////////////////////
         private void OnEnable()
         {
-            _canRotate = true;
             _grabInteractor.selectEntered.AddListener(GrabbedBy);
             _grabInteractor.selectExited.AddListener(GrabEnd);
         }
@@ -63,7 +61,7 @@ namespace Gameplay
 
         private void Update()
         {
-            if (_shouldGetHandRotation && _canRotate)
+            if (_shouldGetHandRotation && _interactable)
             {
                 var rotationAngle = GetInteractorRotation(); //gets the current controller angle
                 GetRotationDistance(rotationAngle);
@@ -148,7 +146,7 @@ namespace Gameplay
             if (_totalRotation>= _goalRotationPercentage)
             {
                 if (!_activated) {
-                    _canRotate = false;
+                    _interactable = false;
                     _activated = true;
                     _audioManager.PlayClip("blip");
 
@@ -167,6 +165,8 @@ namespace Gameplay
         {
             Destroy(gameObject);
         }
+
+      
     }
 }
 

@@ -3,10 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.XR.Interaction.Toolkit;
 using General;
+using Gameplay;
 
-namespace RotationRing
+namespace Gameplay
 {
-	public class RotationRing: MonoBehaviour
+	public class RotationRing: Interactable
 	{
 
 		///////////////////////////////
@@ -21,7 +22,6 @@ namespace RotationRing
 		private XRBaseInteractor _interactor;
 		private bool _followHand;
 		private Vector3 _handOrigin;
-		private bool _canRotate => _gameState.CanRotate();
 		private GameStateController _gameState { get { return GameStateController.Instance; } }
 
 		///////////////////////////////
@@ -72,11 +72,11 @@ namespace RotationRing
 
 		private void Update()
 		{
-			if (_followHand &&_canRotate)
+			if (_followHand &&_interactable)
 			{
 				_objectToRotate.transform.Rotate(0, Time.deltaTime * _speed * GetHandDirection(_interactor.transform.position), 0);
 			}
-			if (!_canRotate && _interactor)
+			if (!_interactable && _interactor)
 			{
 				_interactor = null;
 				_followHand = false;
@@ -93,9 +93,12 @@ namespace RotationRing
 		///////////////////////////////
 		//  PUBLIC API               //
 		///////////////////////////////
-		private void SetRotationObject(GameObject obj)
+		public void SetRotationObject(GameObject obj)
 		{
 			_objectToRotate = obj;
 		}
+
+		
+		
 	}
 }

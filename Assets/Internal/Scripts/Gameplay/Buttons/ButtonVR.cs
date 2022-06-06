@@ -6,7 +6,7 @@ using General;
 
 namespace Gameplay
 {
-	public class ButtonVR: MonoBehaviour
+	public class ButtonVR: Interactable
 	{
 
 		///////////////////////////////
@@ -37,7 +37,7 @@ namespace Gameplay
 
 		private void OnTriggerEnter(Collider other)
 		{
-			if (!_isPressed)
+			if (!_isPressed && _interactable)
 			{
 				_button.transform.localPosition = new Vector3(0,0.003f,0);
 				_onPresss.Invoke();
@@ -50,7 +50,7 @@ namespace Gameplay
 
 		private void OnTriggerExit(Collider other)
 		{
-			if (other.gameObject == _presser && _isPressed)
+			if (other.gameObject == _presser && _isPressed && _interactable)
 			{
 				_presser = null;
 				_isPressed = false;
@@ -58,6 +58,8 @@ namespace Gameplay
 				_audioManager.PlayClip("blip");
 
 				_onRelease.Invoke();
+				_interactable = false;
+
 			}
 		}
 		///////////////////////////////
@@ -69,5 +71,6 @@ namespace Gameplay
 			Destroy(gameObject);
 		}
 
+		
 	}
 }

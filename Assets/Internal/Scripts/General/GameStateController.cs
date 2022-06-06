@@ -11,6 +11,7 @@ using UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEditor;
+using Animation;
 
 namespace General
 {
@@ -48,8 +49,10 @@ namespace General
 		private AdditionalUIController _UIController { get { return AdditionalUIController.Instance; } }
 		private TelaportController _telaportController { get { return TelaportController.Instance; } }
 		private AudioManager _audioManager { get { return AudioManager.Instance; } }
+		private AnimationController _animationController { get { return AnimationController.Instance; } }
+		private GameHandler _gameHandler { get { return GameHandler.Instance; } }
 
-		private bool _canRotate;
+
 
 		///////////////////////////////
 		//  PRIVATE METHODS           //
@@ -85,6 +88,7 @@ namespace General
 				string saveString = File.ReadAllText(Application.persistentDataPath + "/MySaveData.txt");
 				SaveData data = JObject.Parse(saveString).ToObject<SaveData>();
 				PlayerId = data.PlayerId;
+				_highScore = data.HighScore;
 				Debug.Log("Game data loaded!");
 				return true;
 			}
@@ -142,13 +146,14 @@ namespace General
 							_settings.ToggleMovementAllowed(true);
 							_audioManager.PlayMainTheme();
 							_UIController.ToggleLoadingUI(false);
+							_animationController.SetMenuRobot();
 							
 							break;
 						case GameState.Play:
 							_settings.ToggleMovementAllowed(true);
 							_audioManager.PlayGameTheme();
 							_UIController.ToggleLoadingUI(false);
-							
+							_animationController.SetGameRobot();
 							break;
 						
 						
@@ -182,19 +187,14 @@ namespace General
 #endif
 		}
 
-		public bool CanRotate()
-		{
-			return _canRotate;
-		}
-
 	
 
 		public void GoToMenu()
 		{
+			_gameHandler.DisableAllInteraction();
 			SetState(GameState.Load);
-			_canRotate = true;
+		
 			SetState(GameState.Menu);
-
 		}
 
 

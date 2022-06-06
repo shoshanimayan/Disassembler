@@ -2,6 +2,9 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using General;
+using DG.Tweening;
+using Gameplay;
+using Lever;
 
 namespace Tutorial
 {
@@ -14,6 +17,7 @@ namespace Tutorial
 		[SerializeField] GameObject _tutorialButton;
 		[SerializeField] GameObject _tutorialLever;
 		[SerializeField] GameObject _tutorialRotator;
+		[SerializeField] GameObject _tutorialRing;
 
 
 		///////////////////////////////
@@ -21,6 +25,10 @@ namespace Tutorial
 		///////////////////////////////
 		private int _step = 0;
 
+		private ButtonVR _button;
+		private Rotator _rotator;
+		private LeverVR _lever;
+		private RotationRing _ring;
 		private AudioManager _audioManager { get { return AudioManager.Instance; } }
 
 		///////////////////////////////
@@ -28,16 +36,13 @@ namespace Tutorial
 		///////////////////////////////
 		private void Start()
 		{
-			HideAllObj();
+			_button = _tutorialButton.GetComponent<ButtonVR>();
+			_rotator = _tutorialRotator.GetComponent<Rotator>();
+			_lever = _tutorialLever.GetComponent<LeverVR>();
+			_ring = _tutorialRing.GetComponent<RotationRing>();
 		}
 
-		private void HideAllObj()
-		{
-			_tutorialButton.SetActive(false);
-			_tutorialButton.SetActive(false);
-			_tutorialButton.SetActive(false);
-
-		}
+		
 		///////////////////////////////
 		//  PUBLIC API               //
 		///////////////////////////////
@@ -55,16 +60,27 @@ namespace Tutorial
 				switch (_step)
 				{
 					case 1:
-						_tutorialButton.SetActive(true);
-						break;
+						//play intro and increment
 					case 2:
-						_tutorialLever.SetActive(true);
+						//button
+						_tutorialButton.SetActive(true);
+						DOTween.Sequence()
+						.AppendInterval(0.05f)
+						.AppendCallback(() => _audioManager.PlayClip("tutorial1"));
 						break;
 					case 3:
-						_tutorialRotator.SetActive(true);
+						//lever
+						_tutorialLever.SetActive(true);
 						break;
 					case 4:
-						//to menu
+						//rotator
+						_tutorialRotator.SetActive(true);
+						break;
+					case 5:
+						//rotate ring
+						break;
+					case 6:
+						//wrap up
 						break;
 
 				}

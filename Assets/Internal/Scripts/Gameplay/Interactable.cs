@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-namespace Robot
+namespace Gameplay
 {
-	public class RobotHandler: Singleton<RobotHandler>
+	public class Interactable: MonoBehaviour
 	{
 
 		///////////////////////////////
@@ -13,6 +13,7 @@ namespace Robot
 		///////////////////////////////
 		//  PRIVATE VARIABLES         //
 		///////////////////////////////
+				protected bool _interactable;
 
 		///////////////////////////////
 		//  PRIVATE METHODS           //
@@ -21,6 +22,13 @@ namespace Robot
 		///////////////////////////////
 		//  PUBLIC API               //
 		///////////////////////////////
+		public virtual void SetInteractable(bool interact)
+		{
+			_interactable = interact;
+		}
+
+
+	
 
 	}
 }
