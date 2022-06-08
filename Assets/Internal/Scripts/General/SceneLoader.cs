@@ -86,7 +86,6 @@ namespace General
 
         public void FirstLoad()
         {
-            print("lod");
             Addressables.LoadSceneAsync(firstScene, UnityEngine.SceneManagement.LoadSceneMode.Additive).Completed += SceneLoadCompleted;
 
         }

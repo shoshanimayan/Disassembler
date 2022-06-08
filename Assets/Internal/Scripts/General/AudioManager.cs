@@ -34,10 +34,14 @@ namespace General
                 if (clip.name == name)
                 {
                     _asCamera.PlayOneShot(clip);
+                    return;
                 }
             }
+            Debug.LogError("no clip "+name);
 
         }
+
+       
 
         public void StopClip()
         {

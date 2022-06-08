@@ -1,6 +1,10 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using System.Threading.Tasks;
+using General;
+using UI;
 namespace Gameplay
 {
 	public class GameHandler: Singleton<GameHandler>
@@ -11,20 +15,41 @@ namespace Gameplay
 		///////////////////////////////
 		[SerializeField] private Interactable[] _interactables=new Interactable[] { };
 		[SerializeField] private RotationRing _rotationRing;
+		[SerializeField] private float _gameLength;
+
 
 		///////////////////////////////
 		//  PRIVATE VARIABLES         //
 		///////////////////////////////
+		private GameStateController _gameState { get { return GameStateController.Instance; } }
+		private GameUIHandler _gameUIHandler { get { return GameUIHandler.Instance; } }
 
-		private int _score;
-		private float _time;
+		private int _score=0;
+		private float _currentTime;
+		private bool _playing;
 		private int _interactionsLeft = -1;
+	
 		///////////////////////////////
 		//  PRIVATE METHODS           //
 		///////////////////////////////
 		private void Awake()
 		{
-			//_interactables = GameObject.FindObjectsOfType<IInteractor>();
+
+		}
+
+		private void Update()
+		{
+			if (_playing)
+			{
+				if (_currentTime > 0)
+				{
+					_currentTime -= Time.deltaTime;
+				}
+				else
+				{
+					EndGame();
+				}
+			}
 		}
 		///////////////////////////////
 		//  PUBLIC API               //
@@ -41,11 +66,16 @@ namespace Gameplay
 				if (_interactionsLeft == value) return;
 				_interactionsLeft = value;
 				if (_interactionsLeft == 0)
-				{ 
-				//set new head
+				{
+					IncrementScore(1);
+
+					//set new head
 				}
 			}
 		}
+
+		
+
 		public void AllActiveInteractableEnable()
 		{
 			if (_interactables.Length == 0) return;
@@ -71,32 +101,47 @@ namespace Gameplay
 		private void IncrementScore(int score)
 		{
 			_score += score;
+			_gameUIHandler.SetScoreText(_score);
+
 		}
 
-		private int GetScore()
+		public int GetScore()
 		{
 			return _score;
 		}
 
-		private void IncrementTime(int time)
+		public bool GetPlayStatus()
 		{
-			_time += time;
+			return _playing;
 		}
 
 		public float GetTime()
 		{
-			return _time;
+			return _currentTime;
 		}
 
 		public void StartGame()
 		{
-			_time = 2f;
+			_currentTime = _gameLength;
 			_score = 0;
+			_gameUIHandler.SetScoreText(_score);
+			_gameUIHandler.SetTimerText(_currentTime);
+			var t =_gameUIHandler.FadeInOut(false);
+			
+			_playing = true;
 		}
 
-		public void BasicScore(GameObject caller)
+		public void EndGame()
 		{
-			IncrementScore(100);
+			_playing = false;
+			_gameUIHandler.SetTimerText(0);
+			//var t = FadeInOut(true);
+			_gameState.SetHighScore(_score);
+			_gameState.GoToMenu();
+		}
+
+		public void CompleteInteraction(GameObject caller)
+		{
 			InteractionCount--;
 		}
 
@@ -107,7 +152,10 @@ namespace Gameplay
 
 		public void SetRotatedObject(GameObject toRotate)
 		{
+			print(toRotate);
 			_rotationRing.SetRotationObject(toRotate);
 		}
+
+		
 	}
 }

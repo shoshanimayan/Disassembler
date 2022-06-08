@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEditor;
 using Animation;
+using Menu;
 
 namespace General
 {
@@ -51,6 +52,7 @@ namespace General
 		private AudioManager _audioManager { get { return AudioManager.Instance; } }
 		private AnimationController _animationController { get { return AnimationController.Instance; } }
 		private GameHandler _gameHandler { get { return GameHandler.Instance; } }
+		private MenuHandler _menuHandler { get { return MenuHandler.Instance; } }
 
 
 
@@ -193,7 +195,7 @@ namespace General
 		{
 			_gameHandler.DisableAllInteraction();
 			SetState(GameState.Load);
-		
+			_menuHandler.SetHighScoreText(_highScore);
 			SetState(GameState.Menu);
 		}
 
@@ -210,7 +212,7 @@ namespace General
 			
 		}
 
-		private void SetHighScore(int score)
+		public void SetHighScore(int score)
 		{
 			if (score > _highScore)
 			{

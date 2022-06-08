@@ -5,6 +5,7 @@ using DG.Tweening;
 using General;
 using Gameplay;
 using Tutorial;
+using Menu;
 
 namespace Animation
 {
@@ -27,6 +28,8 @@ namespace Animation
 		private GameStateController _gameState { get { return GameStateController.Instance; } }
 		private GameHandler _gameHandler { get { return GameHandler.Instance; } }
 		private TutorialHandler _tutorialHandler { get { return TutorialHandler.Instance; } }
+		private AudioManager _audioManager { get { return AudioManager.Instance; } }
+		private MenuHandler _menuHandler { get { return MenuHandler.Instance; } }
 
 		///////////////////////////////
 		//  PRIVATE METHODS           //
@@ -70,13 +73,18 @@ namespace Animation
 
 		public void SetMenuRobot()
 		{
+			//_gameHandler.SetRotatedObject(_menuBot);
 			DOTween.Sequence()
 				.AppendInterval(0.15f)
 				.AppendCallback(() => BlackHoleSet(true))
 				.AppendInterval(1f)
 				.AppendCallback(() => SetHeadPlacement(_menuBot))
 				.AppendInterval(2f)
-				.AppendCallback(() => BlackHoleSet(false)).OnComplete(()=>_gameHandler.SetRotatedObject(_menuBot)).OnComplete(() => _gameHandler.AllActiveInteractableEnable());
+				.AppendCallback(() => BlackHoleSet(false))
+				.AppendInterval(1f)
+				.AppendCallback(()=>_gameHandler.SetRotatedObject(_menuBot))
+				.AppendCallback(() => _gameHandler.AllActiveInteractableEnable())
+				.AppendCallback(()=>_audioManager.PlayClip("title")).OnComplete(async ()=>await _menuHandler.FadeInOut(false));
 		}
 
 		public void SetGameRobot()
@@ -87,7 +95,9 @@ namespace Animation
 				.AppendInterval(1f)
 				.AppendCallback(() => SetHeadPlacement(_gameBot))
 				.AppendInterval(2f)
-				.AppendCallback(() => BlackHoleSet(false)).OnComplete(() => _gameHandler.SetRotatedObject(_gameBot)).OnComplete(() => _gameHandler.AllActiveInteractableEnable());  
+				.AppendCallback(() => BlackHoleSet(false))
+				.AppendCallback(() => _gameHandler.SetRotatedObject(_gameBot))
+				.AppendCallback(() => _gameHandler.AllActiveInteractableEnable());  
 		}
 
 		public void SetTutorialRobot()
