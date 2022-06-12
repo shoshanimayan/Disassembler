@@ -32,10 +32,7 @@ namespace Gameplay
 		///////////////////////////////
 		//  PRIVATE METHODS           //
 		///////////////////////////////
-		private void Awake()
-		{
-
-		}
+		
 
 		private void Update()
 		{

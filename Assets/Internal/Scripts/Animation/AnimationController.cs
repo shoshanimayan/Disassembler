@@ -97,7 +97,9 @@ namespace Animation
 				.AppendInterval(2f)
 				.AppendCallback(() => BlackHoleSet(false))
 				.AppendCallback(() => _gameHandler.SetRotatedObject(_gameBot))
-				.AppendCallback(() => _gameHandler.AllActiveInteractableEnable());  
+				.AppendCallback(() => _gameHandler.AllActiveInteractableEnable())
+				.SetId("headMovement")
+;
 		}
 
 		public void SetTutorialRobot()

@@ -13,6 +13,7 @@ using Newtonsoft.Json.Linq;
 using UnityEditor;
 using Animation;
 using Menu;
+using Gameplay.Height;
 
 namespace General
 {
@@ -22,11 +23,12 @@ namespace General
 	{
 		public int HighScore;
 		public string PlayerId;
-
-		public SaveData(int score, string id)
+		public float HeightOffset;
+		public SaveData(int score, string id, float heightOffset)
 		{
 			HighScore = score;
 			PlayerId = id;
+			HeightOffset= heightOffset;
 		}
 	}
 
@@ -53,7 +55,7 @@ namespace General
 		private AnimationController _animationController { get { return AnimationController.Instance; } }
 		private GameHandler _gameHandler { get { return GameHandler.Instance; } }
 		private MenuHandler _menuHandler { get { return MenuHandler.Instance; } }
-
+		private HeightHandler _heightHandler { get { return HeightHandler.Instance; } }
 
 
 		///////////////////////////////
@@ -91,6 +93,7 @@ namespace General
 				SaveData data = JObject.Parse(saveString).ToObject<SaveData>();
 				PlayerId = data.PlayerId;
 				_highScore = data.HighScore;
+				_heightHandler.SetInitalHeight(data.HeightOffset);
 				Debug.Log("Game data loaded!");
 				return true;
 			}
@@ -167,7 +170,7 @@ namespace General
 
 		public void SaveGame(string ID,int Score)
 		{
-			SaveData data = new SaveData(Score,ID);
+			SaveData data = new SaveData(Score,ID,_heightHandler.GetHeightChange());
 			string content = JsonConvert.SerializeObject(data);
 			File.WriteAllText(Application.persistentDataPath + "/MySaveData.txt", content);
 
@@ -175,6 +178,7 @@ namespace General
 
 		public void Play()
 		{
+			_heightHandler.SetInteractable(false);
 			SetState(GameState.Load);
 			SetState(GameState.Play);
 
@@ -197,6 +201,8 @@ namespace General
 			SetState(GameState.Load);
 			_menuHandler.SetHighScoreText(_highScore);
 			SetState(GameState.Menu);
+			_heightHandler.SetInteractable(true);
+
 		}
 
 

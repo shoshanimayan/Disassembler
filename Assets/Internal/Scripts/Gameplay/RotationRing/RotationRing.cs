@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.XR.Interaction.Toolkit;
 using General;
 using Gameplay;
+using UnityEngine.Events;
 
 namespace Gameplay
 {
@@ -13,8 +14,11 @@ namespace Gameplay
 		///////////////////////////////
 		//  INSPECTOR VARIABLES      //
 		///////////////////////////////
-		[SerializeField] GameObject _objectToRotate;
-		[SerializeField] float _speed=1;
+		[SerializeField] private GameObject _objectToRotate;
+		[SerializeField] private float _speed=1;
+		[SerializeField] private UnityEvent _tutorialCompleteEvent;
+		[SerializeField] private float _tutorialGoal;
+
 		///////////////////////////////
 		//  PRIVATE VARIABLES         //
 		///////////////////////////////
@@ -22,6 +26,12 @@ namespace Gameplay
 		private XRBaseInteractor _interactor;
 		private bool _followHand;
 		private Vector3 _handOrigin;
+
+		private bool _tutorial;
+		private float _totalRotation;
+		
+
+
 		private GameStateController _gameState { get { return GameStateController.Instance; } }
 
 		///////////////////////////////
@@ -75,6 +85,11 @@ namespace Gameplay
 			if (_followHand &&_interactable)
 			{
 				_objectToRotate.transform.Rotate(0, Time.deltaTime * _speed * GetHandDirection(_interactor.transform.position), 0);
+				if (_tutorial)
+				{
+					_totalRotation += Time.deltaTime;
+					print(_totalRotation);
+				}
 			}
 			if (!_interactable && _interactor)
 			{
@@ -89,6 +104,12 @@ namespace Gameplay
 				}
 			}
 
+			if (_tutorial && _totalRotation >= _tutorialGoal)
+			{
+				_tutorialCompleteEvent.Invoke();
+				_tutorial = false;
+			}
+
 		}
 		///////////////////////////////
 		//  PUBLIC API               //
@@ -98,7 +119,12 @@ namespace Gameplay
 			_objectToRotate = obj;
 		}
 
-		
+		public void SetTutorial(bool playTutorial)
+		{
+			_tutorial = playTutorial;
+			SetInteractable(false);
+			_totalRotation = 0;
+		}
 		
 	}
 }

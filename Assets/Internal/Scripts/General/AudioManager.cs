@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
-
+using UnityEngine.Events;
+using System;
+using DG.Tweening;
 namespace General
 {
     public class AudioManager : Singleton<AudioManager>
@@ -39,6 +42,24 @@ namespace General
             }
             Debug.LogError("no clip "+name);
 
+        }
+
+        public void PlayClipWithAction(string name, System.Action DoAfter)
+        {
+            AudioClip PlayedClip=null;
+            foreach (AudioClip clip in _audioClips)
+            {
+                if (clip.name == name)
+                {
+                    _asCamera.PlayOneShot(clip);
+                    PlayedClip = clip;
+                    break;
+                }
+            }
+            if (PlayedClip!=null)
+            {
+                DOTween.Sequence().AppendInterval(PlayedClip.length).AppendCallback(() => DoAfter());
+            }
         }
 
        

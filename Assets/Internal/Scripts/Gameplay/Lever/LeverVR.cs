@@ -25,10 +25,10 @@ namespace Lever
 		///////////////////////////////
 		//  PRIVATE METHODS           //
 		///////////////////////////////
-		private void Start()
+		private void OnEnable()
 		{
 			_hinge = GetComponent<HingeJoint>();
-			transform.localEulerAngles = new Vector3(_hinge.limits.min, 0,0 );
+			_hinge.useMotor = true;
 		}
 
 		private void DebugAngle()
@@ -48,8 +48,6 @@ namespace Lever
 				_audioManager.PlayClip("blip");
 				_onReachMax.Invoke();
 				_interactable = false;
-
-
 			}
 		}
 
@@ -68,6 +66,13 @@ namespace Lever
 			Destroy(gameObject);
 		}
 
-		
+		public override void SetInteractable(bool interact)
+		{
+			base.SetInteractable(interact);
+			_hinge.useMotor = false;
+
+		}
+
+
 	}
 }

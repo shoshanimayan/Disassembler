@@ -25,6 +25,7 @@ namespace Gameplay
         private bool _shouldGetHandRotation = false;
         private bool _activated;
         private float _totalRotation;
+
         private AudioManager _audioManager { get { return AudioManager.Instance; } }
 
         private XRGrabInteractable _grabInteractor => GetComponent<XRGrabInteractable>();
