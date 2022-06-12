@@ -59,8 +59,11 @@ namespace Animation
 
 		private void SetHeadPlacement(GameObject head)
 		{
-
 			head.SetActive(true);
+			if (head == _menuBot)
+			{
+				_gameHandler.SetAllInteractionSpots();
+			}
 			head.transform.eulerAngles = Vector3.zero;
 			head.transform.position = new Vector3(_blackHole.transform.position.x, _blackHole.transform.position.y+.5f, _blackHole.transform.position.z);
 			head.transform.DOMove(_tableSpot.transform.position, 2f);
@@ -71,9 +74,24 @@ namespace Animation
 		//  PUBLIC API               //
 		///////////////////////////////
 
+		public void SetMenuHeadActive(bool act)
+		{
+			_menuBot.SetActive(act);
+		}
+
+		public void SetTutorialHeadActive(bool act)
+		{
+			_tutorialBot.SetActive(act);
+		}
+
+		public void SetGameHeadActive(bool act)
+		{
+			_gameBot.SetActive(act);
+		}
+
+
 		public void SetMenuRobot()
 		{
-			//_gameHandler.SetRotatedObject(_menuBot);
 			DOTween.Sequence()
 				.AppendInterval(0.15f)
 				.AppendCallback(() => BlackHoleSet(true))

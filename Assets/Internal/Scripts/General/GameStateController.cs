@@ -14,7 +14,7 @@ using UnityEditor;
 using Animation;
 using Menu;
 using Gameplay.Height;
-
+using Tutorial;
 namespace General
 {
 
@@ -24,15 +24,18 @@ namespace General
 		public int HighScore;
 		public string PlayerId;
 		public float HeightOffset;
-		public SaveData(int score, string id, float heightOffset)
+		public bool TutorialCompleted;
+
+		public SaveData(int score, string id, float heightOffset, bool tutorialComplete)
 		{
 			HighScore = score;
 			PlayerId = id;
 			HeightOffset= heightOffset;
+			TutorialCompleted = tutorialComplete;
 		}
 	}
 
-	public enum GameState { Menu, Play,Load}
+	public enum GameState { Menu, Play,Load,Tutorial}
 
 
 	public class GameStateController : Singleton<GameStateController>
@@ -47,6 +50,7 @@ namespace General
 		private GameState _state=GameState.Load;
 		private string _key;
 		private bool _subMenuOn = false;
+		private bool _tutorialCompleted;
 		private  SceneLoader _sceneLoader { get { return SceneLoader.Instance; } }
 		private SettingsController _settings { get { return SettingsController.Instance; } }
 		private AdditionalUIController _UIController { get { return AdditionalUIController.Instance; } }
@@ -57,6 +61,7 @@ namespace General
 		private MenuHandler _menuHandler { get { return MenuHandler.Instance; } }
 		private HeightHandler _heightHandler { get { return HeightHandler.Instance; } }
 
+		private TutorialHandler _tutorialHandler { get { return TutorialHandler.Instance; } }
 
 		///////////////////////////////
 		//  PRIVATE METHODS           //
@@ -77,7 +82,7 @@ namespace General
 #else
 				 PlayerId = "player";
 #endif
-				SaveGame(PlayerId,_highScore);
+				SaveGame();
 			}
 
 
@@ -94,6 +99,7 @@ namespace General
 				PlayerId = data.PlayerId;
 				_highScore = data.HighScore;
 				_heightHandler.SetInitalHeight(data.HeightOffset);
+				_tutorialCompleted = data.TutorialCompleted;
 				Debug.Log("Game data loaded!");
 				return true;
 			}
@@ -155,12 +161,19 @@ namespace General
 							
 							break;
 						case GameState.Play:
+
 							_settings.ToggleMovementAllowed(true);
 							_audioManager.PlayGameTheme();
 							_UIController.ToggleLoadingUI(false);
+
 							_animationController.SetGameRobot();
 							break;
-						
+						case GameState.Tutorial:
+							_settings.ToggleMovementAllowed(true);
+							_audioManager.PlayGameTheme();
+							_UIController.ToggleLoadingUI(false);
+							_tutorialHandler.StartTutorial();
+							break;
 						
 					}
 				}
@@ -168,9 +181,9 @@ namespace General
 		}
 
 
-		public void SaveGame(string ID,int Score)
+		public void SaveGame()
 		{
-			SaveData data = new SaveData(Score,ID,_heightHandler.GetHeightChange());
+			SaveData data = new SaveData(_highScore,_playerId,_heightHandler.GetHeightChange(),_tutorialCompleted);
 			string content = JsonConvert.SerializeObject(data);
 			File.WriteAllText(Application.persistentDataPath + "/MySaveData.txt", content);
 
@@ -178,6 +191,7 @@ namespace General
 
 		public void Play()
 		{
+			_gameHandler.StartGame();
 			_heightHandler.SetInteractable(false);
 			SetState(GameState.Load);
 			SetState(GameState.Play);
@@ -223,11 +237,26 @@ namespace General
 			if (score > _highScore)
 			{
 				_highScore = score;
-				SaveGame(PlayerId, _highScore);
+				SaveGame();
 			}
 		}
 
-		
+		public void SetTutorialComplete()
+		{
+			_tutorialCompleted = true;
+		}
+
+		public bool GetTutorialCompletedStatus()
+		{
+			return _tutorialCompleted;
+		}
+
+		public void GoToTutorial()
+		{
+			_gameHandler.DisableAllInteraction();
+			SetState(GameState.Load);
+			SetState(GameState.Tutorial);
+		}
 
 	}
 }

@@ -62,6 +62,14 @@ namespace Tutorial
 			_ring.GetComponent<RotationRing>().SetInteractable(true);
 		}
 
+		private void EndTutorial()
+		{
+			_animationController.SetTutorialHeadActive(false);
+			_gameState.SetTutorialComplete();
+			_gameState.SaveGame();
+			_gameState.GoToMenu();
+			
+		}
 
 		///////////////////////////////
 		//  PUBLIC API               //
@@ -82,7 +90,7 @@ namespace Tutorial
 					case 1:
 						DOTween.Sequence()
 						.AppendCallback(() => _animationController.SetTutorialRobot())
-						.AppendCallback(() => _audioManager.PlayClipWithAction("tutorial2", IncrementStep));
+						.AppendCallback(() => _audioManager.PlayClipWithAction("tutorial1", IncrementStep));
 						break;
 					case 2:
 						//button
@@ -123,7 +131,7 @@ namespace Tutorial
 						DOTween.Sequence()
 						.AppendCallback(() => _tutorialBot.transform.DORotate(new Vector3(0, 360, 0), .5f))
 						.AppendInterval(0.05f)
-						.AppendCallback(() => _audioManager.PlayClipWithAction("tutorial6", _gameState.GoToMenu));
+						.AppendCallback(() => _audioManager.PlayClipWithAction("tutorial6", EndTutorial));
 						//wrap up
 						break;
 
@@ -139,6 +147,11 @@ namespace Tutorial
 				_currentObject.SetActive(false);
 			}
 			TutorialStep++;
+		}
+
+		public void StartTutorial()
+		{
+			IncrementStep();
 		}
 	}
 }

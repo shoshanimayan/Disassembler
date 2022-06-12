@@ -55,21 +55,15 @@ namespace Menu
 				while (_canvas.alpha > 0)
 				{
 					_canvas.alpha -= Time.deltaTime;
-
 					await Task.Yield();
-
 				}
-
-
 			}
 			else
 			{
 				while (_canvas.alpha < 1)
 				{
 					_canvas.alpha += Time.deltaTime;
-
 					await Task.Yield();
-
 				}
 			}
 		}

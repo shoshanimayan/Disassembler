@@ -5,6 +5,8 @@ using TMPro;
 using System.Threading.Tasks;
 using General;
 using UI;
+using Animation;
+
 namespace Gameplay
 {
 	public class GameHandler: Singleton<GameHandler>
@@ -16,23 +18,35 @@ namespace Gameplay
 		[SerializeField] private Interactable[] _interactables=new Interactable[] { };
 		[SerializeField] private RotationRing _rotationRing;
 		[SerializeField] private float _gameLength;
-
+		[SerializeField] private GameObject[] _InteractableSpots;
 
 		///////////////////////////////
 		//  PRIVATE VARIABLES         //
 		///////////////////////////////
 		private GameStateController _gameState { get { return GameStateController.Instance; } }
 		private GameUIHandler _gameUIHandler { get { return GameUIHandler.Instance; } }
+		private AnimationController _animationController { get { return AnimationController.Instance; } }
 
 		private int _score=0;
 		private float _currentTime;
 		private bool _playing;
 		private int _interactionsLeft = -1;
-	
+		private bool _resetting;
 		///////////////////////////////
 		//  PRIVATE METHODS           //
 		///////////////////////////////
-		
+
+
+		private void RandomlySetInteractionSpot(GameObject spot)
+		{
+			var interactables = spot.GetComponentsInChildren<Transform>();
+			foreach (var i in interactables)
+			{
+				i.gameObject.SetActive(false);
+			}
+			interactables[Random.Range(0, interactables.Length)].gameObject.SetActive(true);
+
+		}
 
 		private void Update()
 		{
@@ -48,6 +62,13 @@ namespace Gameplay
 				}
 			}
 		}
+
+		private void IncrementScore(int score)
+		{
+			_score += score;
+			_gameUIHandler.SetScoreText(_score);
+
+		}
 		///////////////////////////////
 		//  PUBLIC API               //
 		///////////////////////////////
@@ -62,11 +83,13 @@ namespace Gameplay
 			{
 				if (_interactionsLeft == value) return;
 				_interactionsLeft = value;
-				if (_interactionsLeft == 0)
+				if (_interactionsLeft == 0 && !_resetting)
 				{
+					_resetting = true;
 					IncrementScore(1);
-
-					//set new head
+					_animationController.SetGameHeadActive(false);
+					_animationController.SetGameRobot();
+					SetRotatedObject(null);
 				}
 			}
 		}
@@ -95,12 +118,7 @@ namespace Gameplay
 			}
 		}
 
-		private void IncrementScore(int score)
-		{
-			_score += score;
-			_gameUIHandler.SetScoreText(_score);
-
-		}
+		
 
 		public int GetScore()
 		{
@@ -119,6 +137,7 @@ namespace Gameplay
 
 		public void StartGame()
 		{
+			_animationController.SetMenuHeadActive(false);
 			_currentTime = _gameLength;
 			_score = 0;
 			_gameUIHandler.SetScoreText(_score);
@@ -132,9 +151,9 @@ namespace Gameplay
 		{
 			_playing = false;
 			_gameUIHandler.SetTimerText(0);
-			//var t = FadeInOut(true);
 			_gameState.SetHighScore(_score);
 			_gameState.GoToMenu();
+			_animationController.SetGameHeadActive(false);
 		}
 
 		public void CompleteInteraction(GameObject caller)
@@ -147,12 +166,29 @@ namespace Gameplay
 			InteractionCount = number;
 		}
 
+		public void DecreamentInteractions()
+		{
+			InteractionCount--;
+		}
+
 		public void SetRotatedObject(GameObject toRotate)
 		{
 			print(toRotate);
 			_rotationRing.SetRotationObject(toRotate);
 		}
 
+		public void SetAllInteractionSpots()
+		{
+			SetInteractionAmount(4);
+			foreach (var x in _InteractableSpots)
+			{
+				RandomlySetInteractionSpot(x);
+			}
+			_resetting = false;
+		}
+
 		
+
+
 	}
 }

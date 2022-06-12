@@ -82,7 +82,7 @@ namespace Gameplay
 
 		private void Update()
 		{
-			if (_followHand &&_interactable)
+			if (_followHand &&_interactable && _objectToRotate)
 			{
 				_objectToRotate.transform.Rotate(0, Time.deltaTime * _speed * GetHandDirection(_interactor.transform.position), 0);
 				if (_tutorial)
