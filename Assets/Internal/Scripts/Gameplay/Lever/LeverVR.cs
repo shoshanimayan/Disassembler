@@ -27,6 +27,8 @@ namespace Lever
 		///////////////////////////////
 		private void OnEnable()
 		{
+			GetComponent<Rigidbody>().isKinematic = false;
+
 			_hinge = GetComponent<HingeJoint>();
 			_hinge.useMotor = true;
 		}
@@ -38,11 +40,10 @@ namespace Lever
 
 		private void CheckIfReachedMaxAngle()
 		{
-			if (_hinge.angle >= _hinge.limits.max &&!_activated &&_interactable)
+			if (!_activated &&_interactable)
 			{
 				_activated = true;
 				print(_activated);
-				transform.localEulerAngles = new Vector3(_hinge.limits.max, 0,0 );
 				GetComponent<Rigidbody>().isKinematic = true;
 				GetComponent<XRGrabInteractable>().enabled = false;
 				_audioManager.PlayClip("blip");
@@ -51,16 +52,29 @@ namespace Lever
 			}
 		}
 
-		private void Update()
+
+
+		private void OnTriggerEnter(Collider other)
 		{
-			CheckIfReachedMaxAngle();
+			if (other.tag == "leverLimit")
+			{
+				CheckIfReachedMaxAngle();
+			}
+		}
+
+		private void OnTriggerStay(Collider other)
+		{
+			if (other.tag == "leverLimit")
+			{
+				CheckIfReachedMaxAngle();
+			}
 		}
 
 
 		///////////////////////////////
 		//  PUBLIC API               //
 		///////////////////////////////
-		
+
 		public void DestroySelf()
 		{
 			Destroy(gameObject);

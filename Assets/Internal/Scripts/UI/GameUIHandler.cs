@@ -22,7 +22,7 @@ namespace UI
 
 		private GameHandler _gameHandler { get { return GameHandler.Instance; } }
 
-		private void Awake()
+		private void Start()
 		{
 			_canvas.alpha = 0;
 

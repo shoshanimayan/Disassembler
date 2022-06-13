@@ -7,6 +7,7 @@ TagManager:
   - vrkb_mallet
   - vrkb_image0
   - vrkb_label0
+  - leverLimit
   layers:
   - Default
   - TransparentFX

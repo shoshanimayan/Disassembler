@@ -32,6 +32,7 @@ namespace Gameplay
 		private bool _playing;
 		private int _interactionsLeft = -1;
 		private bool _resetting;
+		private int _lastindex = -1;
 		///////////////////////////////
 		//  PRIVATE METHODS           //
 		///////////////////////////////
@@ -39,12 +40,25 @@ namespace Gameplay
 
 		private void RandomlySetInteractionSpot(GameObject spot)
 		{
-			var interactables = spot.GetComponentsInChildren<Transform>();
-			foreach (var i in interactables)
+			List<Transform> interactables = new List<Transform>();
+
+			foreach (Transform i  in spot.transform)
 			{
+				print(i);
 				i.gameObject.SetActive(false);
+				interactables.Add(i);
 			}
-			interactables[Random.Range(0, interactables.Length)].gameObject.SetActive(true);
+
+			int randomIndex = Random.Range(0, 2);
+			while (randomIndex == _lastindex)
+			{
+				randomIndex = Random.Range(0, 2);
+			}
+			_lastindex = randomIndex;
+			print(randomIndex);
+			print(interactables[randomIndex]);
+			spot.SetActive(true);
+			interactables[randomIndex].gameObject.SetActive(true);
 
 		}
 
@@ -182,6 +196,7 @@ namespace Gameplay
 			SetInteractionAmount(4);
 			foreach (var x in _InteractableSpots)
 			{
+				print(x);
 				RandomlySetInteractionSpot(x);
 			}
 			_resetting = false;

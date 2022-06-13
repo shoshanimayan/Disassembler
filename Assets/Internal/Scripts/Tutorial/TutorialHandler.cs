@@ -88,6 +88,7 @@ namespace Tutorial
 				switch (_step)
 				{
 					case 1:
+						//setup
 						DOTween.Sequence()
 						.AppendCallback(() => _animationController.SetTutorialRobot())
 						.AppendCallback(() => _audioManager.PlayClipWithAction("tutorial1", IncrementStep));

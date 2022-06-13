@@ -244,6 +244,7 @@ namespace General
 		public void SetTutorialComplete()
 		{
 			_tutorialCompleted = true;
+			_gameHandler.SetRotatedObject(null);
 		}
 
 		public bool GetTutorialCompletedStatus()

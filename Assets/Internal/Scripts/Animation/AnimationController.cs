@@ -60,13 +60,13 @@ namespace Animation
 		private void SetHeadPlacement(GameObject head)
 		{
 			head.SetActive(true);
-			if (head == _menuBot)
+			if (head == _gameBot)
 			{
 				_gameHandler.SetAllInteractionSpots();
 			}
 			head.transform.eulerAngles = Vector3.zero;
 			head.transform.position = new Vector3(_blackHole.transform.position.x, _blackHole.transform.position.y+.5f, _blackHole.transform.position.z);
-			head.transform.DOMove(_tableSpot.transform.position, 2f);
+			head.transform.DOMove(_tableSpot.transform.position, 2f).OnComplete(()=> _gameHandler.SetRotatedObject(head));
 		}
 
 
@@ -98,11 +98,11 @@ namespace Animation
 				.AppendInterval(1f)
 				.AppendCallback(() => SetHeadPlacement(_menuBot))
 				.AppendInterval(2f)
+				.AppendCallback(() => _gameHandler.AllActiveInteractableEnable())
 				.AppendCallback(() => BlackHoleSet(false))
 				.AppendInterval(1f)
-				.AppendCallback(()=>_gameHandler.SetRotatedObject(_menuBot))
-				.AppendCallback(() => _gameHandler.AllActiveInteractableEnable())
-				.AppendCallback(()=>_audioManager.PlayClip("title")).OnComplete(async ()=>await _menuHandler.FadeInOut(false));
+				.AppendCallback(()=>_audioManager.PlayClip("title"))
+				.OnComplete(async ()=>await _menuHandler.FadeInOut(false));
 		}
 
 		public void SetGameRobot()
@@ -113,8 +113,8 @@ namespace Animation
 				.AppendInterval(1f)
 				.AppendCallback(() => SetHeadPlacement(_gameBot))
 				.AppendInterval(2f)
+				.AppendCallback(() => _gameHandler.AllActiveInteractableEnable())
 				.AppendCallback(() => BlackHoleSet(false))
-				.AppendCallback(() => _gameHandler.SetRotatedObject(_gameBot))
 				.AppendCallback(() => _gameHandler.AllActiveInteractableEnable())
 				.SetId("headMovement")
 ;
@@ -128,7 +128,8 @@ namespace Animation
 				.AppendInterval(1f)
 				.AppendCallback(() => SetHeadPlacement(_tutorialBot))
 				.AppendInterval(2f)
-				.AppendCallback(() => BlackHoleSet(false)).OnComplete(() => _gameHandler.SetRotatedObject(_tutorialBot)).OnComplete(() => _tutorialHandler.IncrementStep());
+				.AppendCallback(() => BlackHoleSet(false))
+				.OnComplete(() => _tutorialHandler.IncrementStep());
 		}
 
 		public void KillRobot(GameObject obj)

@@ -61,7 +61,17 @@ namespace General
                 _handle = obj;
                 _unloaded = false;
                 _telaportController.ResetRig();
-                _gameState.GoToMenu();
+                if (_gameState.GetTutorialCompletedStatus())
+                {
+                    _gameState.GoToMenu();
+                }
+                else
+                {
+                    //go to tutorial
+                    _gameState.GoToMenu();
+
+
+                }
             }
         }
 
