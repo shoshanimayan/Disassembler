@@ -19,11 +19,14 @@ namespace Gameplay.Height
         //  PRIVATE VARIABLES         //
         ///////////////////////////////
         private XRGrabInteractable _grabInteractor => GetComponent<XRGrabInteractable>();
+        private XRBaseInteractor _interactor;
+
         private bool _grabbed;
-        private float _heightCurrent;
         private bool _interactable;
         private float _originalHeight;
         private bool _initalized;
+        private Vector3 _handOrigin;
+
         ///////////////////////////////
         //  PRIVATE METHODS           //
         ///////////////////////////////
@@ -35,7 +38,6 @@ namespace Gameplay.Height
 
         private void OnEnable()
         {
-            _heightCurrent = transform.position.y ;
             _grabInteractor.selectEntered.AddListener(GrabbedBy);
             _grabInteractor.selectExited.AddListener(GrabEnd);
         }
@@ -48,12 +50,17 @@ namespace Gameplay.Height
         private void GrabEnd(SelectExitEventArgs arg0)
         {
             _grabbed = false;
+            _interactor = null;
+
         }
 
         private void GrabbedBy(SelectEnterEventArgs arg0)
         {
-
+            _interactor = GetComponent<XRGrabInteractable>().selectingInteractor;
+            _interactor.GetComponent<XRDirectInteractor>().hideControllerOnSelect = true;
             _grabbed = true;
+            _handOrigin = _interactor.transform.position;
+
         }
 
         private void IncreaseHeight(GameObject obj, float yAmount)
@@ -72,10 +79,10 @@ namespace Gameplay.Height
 
         private float GetHeightDifference()
         {
-            float newHeight = transform.position.y;
-            var difference = newHeight - _heightCurrent;
+            float newHeight = _interactor.transform.position.y;
+            var difference = newHeight - _handOrigin.y ;
 
-            _heightCurrent = newHeight;
+            _handOrigin = _interactor.transform.position;
             return difference;
 
 
@@ -83,7 +90,7 @@ namespace Gameplay.Height
 
         private void Update()
         {
-            if (_interactable && _grabbed)
+            if (_interactable && _grabbed && _interactor)
             {
 
                 IncreaseHeightAllObjects(GetHeightDifference());

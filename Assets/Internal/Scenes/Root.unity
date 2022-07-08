@@ -1867,7 +1867,6 @@ GameObject:
   - component: {fileID: 933847595}
   - component: {fileID: 933847594}
   - component: {fileID: 933847593}
-  - component: {fileID: 933847596}
   m_Layer: 6
   m_Name: leverLimit
   m_TagString: leverLimit
@@ -1952,18 +1951,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 933847591}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &933847596
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 933847591}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a9bf391001df504f8a0f26c979141d2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &937816719 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8736017133535253138, guid: a55dda75f8606e74aa7aa48283cb5b05, type: 3}
@@ -2303,7 +2290,7 @@ MonoBehaviour:
   m_VelocityScale: 1
   m_AngularVelocityDamping: 1
   m_AngularVelocityScale: 1
-  m_TrackPosition: 1
+  m_TrackPosition: 0
   m_SmoothPosition: 0
   m_SmoothPositionAmount: 5
   m_TightenPosition: 0.5
@@ -2366,7 +2353,8 @@ MonoBehaviour:
   - {fileID: 2135813796}
   - {fileID: 1509800347}
   - {fileID: 937816719}
-  - {fileID: 8629639394807399345}
+  - {fileID: 113193718042064639}
+  - {fileID: 1022281015}
   _handle: {fileID: 2094046878}
 --- !u!1001 &1027769552
 PrefabInstance:
