@@ -17,6 +17,7 @@ namespace Menu
 		[SerializeField] private CanvasGroup _canvas;
 		[SerializeField] TextMeshProUGUI _highScoreText;
 
+		[SerializeField] TextMeshProUGUI[] _winMessages;
 
 
 		///////////////////////////////
@@ -29,6 +30,8 @@ namespace Menu
 		///////////////////////////////
 		private void Awake()
 		{
+			_winMessages[1].gameObject.SetActive(false);
+			_winMessages[0].gameObject.SetActive(false);
 			_settingsText.text = "Change To Continuous Turn";
 			_canvas.alpha = 0;
 		}
@@ -65,6 +68,21 @@ namespace Menu
 					_canvas.alpha += Time.deltaTime;
 					await Task.Yield();
 				}
+			}
+		}
+
+		public void NewHighScore(bool newHighScore)
+		{
+			if (newHighScore)
+			{
+				_winMessages[0].gameObject.SetActive(true);
+				_winMessages[1].gameObject.SetActive(false);
+
+			}
+			else 
+			{
+				_winMessages[1].gameObject.SetActive(true);
+				_winMessages[0].gameObject.SetActive(false);
 			}
 		}
 

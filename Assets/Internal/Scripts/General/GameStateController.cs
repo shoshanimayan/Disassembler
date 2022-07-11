@@ -236,8 +236,14 @@ namespace General
 		{
 			if (score > _highScore)
 			{
+				_menuHandler.NewHighScore(true);
 				_highScore = score;
 				SaveGame();
+			}
+			else
+			{
+				_menuHandler.NewHighScore(false);
+
 			}
 		}
 
