@@ -14,12 +14,14 @@ namespace General
         /////////////////////////
         [SerializeField] private AudioClip[] _audioClips;
         [SerializeField] private AudioClip[] _themeClips;
+        [SerializeField] private AudioClip[] _RobotClips;
+
         /////////////////////////
         //  PRIVATE VARIABLES  //
         /////////////////////////
         private AudioSource _as;
         private AudioSource _asCamera;
-
+        private string RobotNumber="1";
         private void Awake()
         {
             _as = GetComponent<AudioSource>();
@@ -87,6 +89,19 @@ namespace General
             _as.Stop();
         }
 
+
+        public void RobotEntranceClip()
+        {
+            var  clip= _RobotClips[UnityEngine.Random.Range(0, _RobotClips.Length )];
+            RobotNumber = clip.name[clip.name.Length-1].ToString();
+            _asCamera.PlayOneShot(clip);        
+        }
+
+
+        public void RobotEndClip()
+        {
+            PlayClip("goodbye" + RobotNumber);
+        }
 
     }
 }

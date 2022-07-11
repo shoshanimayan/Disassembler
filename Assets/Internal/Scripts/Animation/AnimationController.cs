@@ -63,6 +63,8 @@ namespace Animation
 			if (head == _gameBot)
 			{
 				_gameHandler.SetAllInteractionSpots();
+				_audioManager.RobotEntranceClip();
+
 			}
 			head.transform.eulerAngles = Vector3.zero;
 			head.transform.position = new Vector3(_blackHole.transform.position.x, _blackHole.transform.position.y+.5f, _blackHole.transform.position.z);

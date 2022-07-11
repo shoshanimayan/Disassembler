@@ -15,7 +15,7 @@ namespace Gameplay
         [SerializeField] private float _angleTolerance;
         [SerializeField] private float _goalRotationPercentage;
         [SerializeField] private UnityEvent _onReachedRotation;
-
+        [SerializeField] private bool _TurnOffOnEvent = true;
         ///////////////////////////////
         //  PRIVATE VARIABLES         //
         ///////////////////////////////
@@ -25,6 +25,7 @@ namespace Gameplay
         private bool _shouldGetHandRotation = false;
         private bool _activated;
         private float _totalRotation;
+        private Transform parent;
 
         private AudioManager _audioManager { get { return AudioManager.Instance; } }
 
@@ -34,6 +35,7 @@ namespace Gameplay
         ///////////////////////////////
         private void OnEnable()
         {
+            _activated = false;
             _grabInteractor.selectEntered.AddListener(GrabbedBy);
             _grabInteractor.selectExited.AddListener(GrabEnd);
         }
@@ -41,6 +43,10 @@ namespace Gameplay
         {
             _grabInteractor.selectEntered.RemoveListener(GrabbedBy);
             _grabInteractor.selectExited.RemoveListener(GrabEnd);
+        }
+        private void Awake()
+        {
+            parent = transform.parent;
         }
 
         private void GrabEnd(SelectExitEventArgs arg0)
@@ -152,6 +158,14 @@ namespace Gameplay
                     _audioManager.PlayClip("blip");
 
                     _onReachedRotation.Invoke();
+                    transform.parent = parent;
+
+                    if (_TurnOffOnEvent)
+                    {
+                        gameObject.SetActive(false);
+
+                    }
+
                 }
             }
         }
@@ -162,10 +176,7 @@ namespace Gameplay
 
         public float GetInteractorRotation() => _interactor.GetComponent<Transform>().eulerAngles.z;
 
-        public void DestroySelf()
-        {
-            Destroy(gameObject);
-        }
+       
 
       
     }

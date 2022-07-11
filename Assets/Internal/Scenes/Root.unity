@@ -1064,7 +1064,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 461849235}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1305,7 +1305,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 554959395}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1355,6 +1355,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 937816720}
     m_Modifications:
+    - target: {fileID: 1187612338283358294, guid: 204508a055dfd644e807bd572be0c813, type: 3}
+      propertyPath: _TurnOffOnEvent
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1187612338283358294, guid: 204508a055dfd644e807bd572be0c813, type: 3}
       propertyPath: _onRelease.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -2143,6 +2147,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 889405342}
   m_CullTransparentMesh: 1
+--- !u!23 &911279783 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7997553932645657378, guid: a55dda75f8606e74aa7aa48283cb5b05, type: 3}
+  m_PrefabInstance: {fileID: 1509800345}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &933847591
 GameObject:
   m_ObjectHideFlags: 0
@@ -2643,6 +2652,8 @@ MonoBehaviour:
   - {fileID: 937816719}
   - {fileID: 113193718042064639}
   - {fileID: 1022281015}
+  - {fileID: 579694521}
+  - {fileID: 1225227031}
   _handle: {fileID: 2094046878}
 --- !u!1001 &1027769552
 PrefabInstance:
@@ -2782,6 +2793,10 @@ PrefabInstance:
     - target: {fileID: 7605856102874475216, guid: 24fcf1167b1f44042981ef4c387d19f6, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7605856102874475216, guid: 24fcf1167b1f44042981ef4c387d19f6, type: 3}
+      propertyPath: _TurnOffOnEvent
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7605856102874475216, guid: 24fcf1167b1f44042981ef4c387d19f6, type: 3}
       propertyPath: _onReachMax.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -3567,7 +3582,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1201644814}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -4445,7 +4460,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1378495082}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -5686,6 +5701,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 937816720}
     m_Modifications:
     - target: {fileID: 4574593884429994377, guid: 0b80ee2b46839a64eb960606f8c6e949, type: 3}
+      propertyPath: _TurnOffOnEvent
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4574593884429994377, guid: 0b80ee2b46839a64eb960606f8c6e949, type: 3}
       propertyPath: _onReachedRotation.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1904374994}
@@ -6841,11 +6860,18 @@ MonoBehaviour:
   - {fileID: 1214586585}
   _rotationRing: {fileID: 113193718042064642}
   _gameLength: 120
-  _InteractableSpots:
+  _interactableSpots:
   - {fileID: 1914570265}
   - {fileID: 2048368601}
   - {fileID: 1864312225}
   - {fileID: 435951695}
+  _robotRenderer: {fileID: 911279783}
+  _robotMaterials:
+  - {fileID: 2100000, guid: b41db8433b3c3114fbd0c8f27618f791, type: 2}
+  - {fileID: 2100000, guid: 8a78a16d26b1ab14dbe290bf66ac58c0, type: 2}
+  - {fileID: 2100000, guid: 2f1ed652a56999f48a373dfcef9ebaa3, type: 2}
+  - {fileID: 2100000, guid: b89f21f1b5cd838438af0002e3fad84b, type: 2}
+  - {fileID: 2100000, guid: 30400e171a3af474dafc57e2513c52b2, type: 2}
 --- !u!114 &1904374998
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7010,9 +7036,22 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7b6fd6ca589bc774ba946cda85ae4109, type: 3}
   - {fileID: 8300000, guid: 53b97ac10049c9f4d833de548c655a72, type: 3}
   - {fileID: 8300000, guid: 700759740dc471a488107d6a7fc6a3ef, type: 3}
+  - {fileID: 8300000, guid: 2b756bc58bc7a994880f14e8e11b06aa, type: 3}
+  - {fileID: 8300000, guid: cb9a280255c152245afb5e0ad8b7ef6a, type: 3}
+  - {fileID: 8300000, guid: 1373c41a8833fc3438f6bf34e7bfb08e, type: 3}
   _themeClips:
   - {fileID: 8300000, guid: d43ab4a2ae1294451a2e98a28d4185d7, type: 3}
   - {fileID: 8300000, guid: d43ab4a2ae1294451a2e98a28d4185d7, type: 3}
+  _RobotClips:
+  - {fileID: 8300000, guid: a5c9073106af0964a83d9934dc98904a, type: 3}
+  - {fileID: 8300000, guid: dfac17e8ddb520545afcaa13ed3fd949, type: 3}
+  - {fileID: 8300000, guid: 5cb7fa9c064d74d4e910c332d1d836e6, type: 3}
+  - {fileID: 8300000, guid: 664e0b4290183b843bea7066204cf076, type: 3}
+  - {fileID: 8300000, guid: 790ceb578d605984197c89a99c2f2077, type: 3}
+  - {fileID: 8300000, guid: fe4ec5ab833918346bff61ceba719413, type: 3}
+  - {fileID: 8300000, guid: a1bdedfbf076f2c4e88af3117a6972f0, type: 3}
+  - {fileID: 8300000, guid: 62a29f415b6d98540bab15fa5a9b03ea, type: 3}
+  - {fileID: 8300000, guid: 67286d87fa43a0241af65895db188601, type: 3}
 --- !u!114 &1904375006
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7132,6 +7171,10 @@ PrefabInstance:
     - target: {fileID: 5605521781412201949, guid: 0b80ee2b46839a64eb960606f8c6e949, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5605521781412201950, guid: 0b80ee2b46839a64eb960606f8c6e949, type: 3}
+      propertyPath: m_RetainTransformParent
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8943147320243245819, guid: 0b80ee2b46839a64eb960606f8c6e949, type: 3}
       propertyPath: m_AdditionalShaderChannelsFlag

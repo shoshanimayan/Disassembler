@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using General;
 using UI;
 using Animation;
+using DG.Tweening;
 
 namespace Gameplay
 {
@@ -18,14 +19,16 @@ namespace Gameplay
 		[SerializeField] private Interactable[] _interactables=new Interactable[] { };
 		[SerializeField] private RotationRing _rotationRing;
 		[SerializeField] private float _gameLength;
-		[SerializeField] private GameObject[] _InteractableSpots;
-
+		[SerializeField] private GameObject[] _interactableSpots;
+		[SerializeField] private MeshRenderer _robotRenderer;
+		[SerializeField] private Material[] _robotMaterials;
 		///////////////////////////////
 		//  PRIVATE VARIABLES         //
 		///////////////////////////////
 		private GameStateController _gameState { get { return GameStateController.Instance; } }
 		private GameUIHandler _gameUIHandler { get { return GameUIHandler.Instance; } }
 		private AnimationController _animationController { get { return AnimationController.Instance; } }
+		private AudioManager _audioManager { get { return AudioManager.Instance; } }
 
 		private int _score=0;
 		private float _currentTime;
@@ -49,10 +52,10 @@ namespace Gameplay
 				interactables.Add(i);
 			}
 
-			int randomIndex = Random.Range(0, 2);
+			int randomIndex = Random.Range(0, 3);
 			while (randomIndex == _lastindex)
 			{
-				randomIndex = Random.Range(0, 2);
+				randomIndex = Random.Range(0, 3);
 			}
 			_lastindex = randomIndex;
 			print(randomIndex);
@@ -99,11 +102,14 @@ namespace Gameplay
 				_interactionsLeft = value;
 				if (_interactionsLeft == 0 && !_resetting)
 				{
+					SetRotatedObject(null);
+
 					_resetting = true;
+					_audioManager.RobotEndClip();
 					IncrementScore(1);
 					_animationController.SetGameHeadActive(false);
+					_robotRenderer.material = _robotMaterials[Random.Range(0, _robotMaterials.Length)];
 					_animationController.SetGameRobot();
-					SetRotatedObject(null);
 				}
 			}
 		}
@@ -159,10 +165,15 @@ namespace Gameplay
 			var t =_gameUIHandler.FadeInOut(false);
 			
 			_playing = true;
+			_audioManager.PlayClip("start");
+
 		}
 
 		public void EndGame()
 		{
+			DOTween.Kill("headMovement");
+			_audioManager.PlayClip("win");
+
 			_playing = false;
 			_gameUIHandler.SetTimerText(0);
 			_gameState.SetHighScore(_score);
@@ -194,7 +205,7 @@ namespace Gameplay
 		public void SetAllInteractionSpots()
 		{
 			SetInteractionAmount(4);
-			foreach (var x in _InteractableSpots)
+			foreach (var x in _interactableSpots)
 			{
 				print(x);
 				RandomlySetInteractionSpot(x);

@@ -21,6 +21,7 @@ namespace Lever
 		private bool _activated;
 		private HingeJoint _hinge;
 		private AudioManager _audioManager { get { return AudioManager.Instance; } }
+		[SerializeField] private bool _TurnOffOnEvent = true;
 
 		///////////////////////////////
 		//  PRIVATE METHODS           //
@@ -28,7 +29,8 @@ namespace Lever
 		private void OnEnable()
 		{
 			GetComponent<Rigidbody>().isKinematic = false;
-
+			GetComponent<XRGrabInteractable>().enabled = true;
+			_activated = false;
 			_hinge = GetComponent<HingeJoint>();
 			_hinge.useMotor = true;
 		}
@@ -49,6 +51,11 @@ namespace Lever
 				_audioManager.PlayClip("blip");
 				_onReachMax.Invoke();
 				_interactable = false;
+				if (_TurnOffOnEvent)
+				{
+					gameObject.SetActive(false);
+
+				}
 			}
 		}
 

@@ -16,6 +16,7 @@ namespace Gameplay
 
 		[SerializeField] private UnityEvent _onPresss;
 		[SerializeField] private UnityEvent _onRelease;
+		[SerializeField] private bool _TurnOffOnEvent = true;
 
 
 
@@ -35,6 +36,13 @@ namespace Gameplay
 			_isPressed = false;
 		}
 
+		private void OnEnable()
+		{
+			_button.transform.localPosition = new Vector3(0, 0.015f, 0);
+			_isPressed = false;
+
+		}
+
 		private void OnTriggerEnter(Collider other)
 		{
 			if (!_isPressed && _interactable)
@@ -44,13 +52,13 @@ namespace Gameplay
 				_isPressed = true;
 				_presser = other.gameObject;
 				_audioManager.PlayClip("click");
-
+				_interactable = false;
 			}
 		}
 
 		private void OnTriggerExit(Collider other)
 		{
-			if (other.gameObject == _presser && _isPressed && _interactable)
+			if (other.gameObject == _presser && _isPressed && !_interactable)
 			{
 				_presser = null;
 				_isPressed = false;
@@ -58,7 +66,9 @@ namespace Gameplay
 				_audioManager.PlayClip("blip");
 
 				_onRelease.Invoke();
-				_interactable = false;
+				_interactable = true;
+				if (_TurnOffOnEvent)
+				{ gameObject.SetActive(false); }
 
 			}
 		}
@@ -66,10 +76,7 @@ namespace Gameplay
 		//  PUBLIC API               //
 		///////////////////////////////
 
-		public void DestroySelf()
-		{
-			Destroy(gameObject);
-		}
+		
 
 		
 	}

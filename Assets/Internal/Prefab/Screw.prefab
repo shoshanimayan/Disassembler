@@ -304,7 +304,7 @@ MonoBehaviour:
   m_ThrowVelocityScale: 1.5
   m_ThrowAngularVelocityScale: 1
   m_ForceGravityOnDetach: 0
-  m_RetainTransformParent: 0
+  m_RetainTransformParent: 1
   m_AttachPointCompatibilityMode: 0
 --- !u!114 &4574593884429994377
 MonoBehaviour:
@@ -337,6 +337,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  _TurnOffOnEvent: 1
 --- !u!1 &8943147319381875407
 GameObject:
   m_ObjectHideFlags: 0

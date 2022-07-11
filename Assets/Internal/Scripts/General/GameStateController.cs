@@ -145,7 +145,6 @@ namespace General
 				_state = value;
 				if (PlayerId != null)
 				{
-					_telaportController.ResetRig();
 					switch (value)
 					{
 						case GameState.Load:
@@ -154,6 +153,7 @@ namespace General
 						
 							break;
 						case GameState.Menu:
+							_telaportController.ResetRig();
 							_settings.ToggleMovementAllowed(true);
 							_audioManager.PlayMainTheme();
 							_UIController.ToggleLoadingUI(false);
