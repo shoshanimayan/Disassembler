@@ -6,6 +6,7 @@ using DG.Tweening;
 using Gameplay;
 using Lever;
 using Animation;
+using UnityEngine.XR.Interaction.Toolkit;
 
 namespace Tutorial
 {
@@ -54,17 +55,25 @@ namespace Tutorial
 		private void EnableInteraction()
 		{
 			_currentObject.GetComponent<Interactable>().SetInteractable(true);
+			if (_currentObject.GetComponent<XRGrabInteractable>())
+			{
+				_currentObject.GetComponent<XRGrabInteractable>().enabled = true;
+
+			}
+
 		}
 
 		private void EnableTutorialRing()
 		{
-			_ring.GetComponent<RotationRing>().SetTutorial(true);
-			_ring.GetComponent<RotationRing>().SetInteractable(true);
+			EnableInteraction();
+			_ring.SetTutorial(true);
+			_ring.SetInteractable(true);
 		}
 
 		private void EndTutorial()
 		{
 			_animationController.SetTutorialHeadActive(false);
+			_tutorialRing.SetActive(true);
 			_gameState.SetTutorialComplete();
 			_gameState.SaveGame();
 			_gameState.GoToMenu();
@@ -95,42 +104,47 @@ namespace Tutorial
 						break;
 					case 2:
 						//button
-						_tutorialButton.SetActive(true);
 						_currentObject = _tutorialButton;
+						_button.SetInteractable(false);
 						DOTween.Sequence()
-						.AppendCallback(() =>_tutorialBot.transform.DORotate(new Vector3(0,90,0),.5f))
+						.AppendCallback(() =>_tutorialBot.transform.DORotate(new Vector3(0,-90,0),.5f))
 						.AppendInterval(0.05f)
 						.AppendCallback(() => _audioManager.PlayClipWithAction("tutorial2",EnableInteraction));
 						break;
 					case 3:
 						//lever
-
-						_tutorialLever.SetActive(true);
+						_lever.SetInteractable(false);
 						_currentObject = _tutorialLever;
+						_currentObject.GetComponent<XRGrabInteractable>().enabled = false;
 						DOTween.Sequence()
-						.AppendCallback(() => _tutorialBot.transform.DORotate(new Vector3(0, 180, 0), .5f))
+						.AppendCallback(() => _tutorialBot.transform.DORotate(new Vector3(0, -180, 0), .5f))
 						.AppendInterval(0.05f)
 						.AppendCallback(() => _audioManager.PlayClipWithAction("tutorial3", EnableInteraction));
 						break;
 					case 4:
 						//rotator
-						_tutorialRotator.SetActive(true);
 						_currentObject = _tutorialRotator;
+						_currentObject.GetComponent<XRGrabInteractable>().enabled = false;
+						_rotator.SetInteractable(false);
 						DOTween.Sequence()
-						.AppendCallback(() => _tutorialBot.transform.DORotate(new Vector3(0, 270, 0), .5f))
+						.AppendCallback(() => _tutorialBot.transform.DORotate(new Vector3(0,- 270, 0), .5f))
 						.AppendInterval(0.05f)
 						.AppendCallback(() => _audioManager.PlayClipWithAction("tutorial4", EnableInteraction));
 						break;
 					case 5:
 						//rotate ring
-						_currentObject = null;
+						_currentObject = _tutorialRing;
+						_currentObject.GetComponent<XRGrabInteractable>().enabled = false;
+
 						DOTween.Sequence()
 						.AppendInterval(0.05f)
-						.AppendCallback(() => _audioManager.PlayClipWithAction("tutorial4",EnableTutorialRing ));
+						.AppendCallback(() => _audioManager.PlayClipWithAction("tutorial5",EnableTutorialRing ));
 						break;
 					case 6:
+						_tutorialRing.SetActive(true);
+						_ring.SetInteractable(false);
 						DOTween.Sequence()
-						.AppendCallback(() => _tutorialBot.transform.DORotate(new Vector3(0, 360, 0), .5f))
+						.AppendCallback(() => _tutorialBot.transform.DORotate(new Vector3(0, -360, 0), .5f))
 						.AppendInterval(0.05f)
 						.AppendCallback(() => _audioManager.PlayClipWithAction("tutorial6", EndTutorial));
 						//wrap up
@@ -142,7 +156,7 @@ namespace Tutorial
 
 		public void IncrementStep()
 		{
-			if (_currentObject)
+			if (_currentObject && _currentObject.GetComponent<Interactable>().IsInteractable())
 			{
 				_currentObject.GetComponent<Interactable>().SetInteractable(false);
 				_currentObject.SetActive(false);
@@ -152,7 +166,9 @@ namespace Tutorial
 
 		public void StartTutorial()
 		{
-			IncrementStep();
+			DOTween.Sequence().SetDelay(1).AppendCallback(() => IncrementStep());
+
+			;
 		}
 	}
 }

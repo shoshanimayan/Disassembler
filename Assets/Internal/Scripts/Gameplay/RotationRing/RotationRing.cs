@@ -88,7 +88,6 @@ namespace Gameplay
 				if (_tutorial)
 				{
 					_totalRotation += Time.deltaTime;
-					print(_totalRotation);
 				}
 			}
 			if (!_interactable && _interactor)

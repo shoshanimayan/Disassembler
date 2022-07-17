@@ -130,8 +130,7 @@ namespace Animation
 				.AppendInterval(1f)
 				.AppendCallback(() => SetHeadPlacement(_tutorialBot))
 				.AppendInterval(2f)
-				.AppendCallback(() => BlackHoleSet(false))
-				.OnComplete(() => _tutorialHandler.IncrementStep());
+				.AppendCallback(() => BlackHoleSet(false));
 		}
 
 		public void KillRobot(GameObject obj)

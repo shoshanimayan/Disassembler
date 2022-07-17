@@ -251,6 +251,7 @@ namespace General
 		{
 			_tutorialCompleted = true;
 			_gameHandler.SetRotatedObject(null);
+			SaveGame();
 		}
 
 		public bool GetTutorialCompletedStatus()
@@ -260,6 +261,8 @@ namespace General
 
 		public void GoToTutorial()
 		{
+			_heightHandler.SetInteractable(false);
+
 			_gameHandler.DisableAllInteraction();
 			SetState(GameState.Load);
 			SetState(GameState.Tutorial);

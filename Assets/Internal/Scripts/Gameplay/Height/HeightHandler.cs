@@ -117,11 +117,11 @@ namespace Gameplay.Height
         public  void SetInteractable(bool interact)
         {
             _interactable = interact;
-            if (!_initalized)
+          /*  if (!_initalized)
             {
                 _initalized = true;
                 return;
-            }
+            }*/
             ShowHideHandle(interact);
         }
 

@@ -68,7 +68,7 @@ namespace General
                 else
                 {
                     //go to tutorial
-                    _gameState.GoToMenu();
+                    _gameState.GoToTutorial();
 
 
                 }

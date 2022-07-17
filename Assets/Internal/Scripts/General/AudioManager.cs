@@ -60,7 +60,7 @@ namespace General
             }
             if (PlayedClip!=null)
             {
-                DOTween.Sequence().AppendInterval(PlayedClip.length).AppendCallback(() => DoAfter());
+                DOTween.Sequence().SetDelay(PlayedClip.length).AppendCallback(() => DoAfter());
             }
         }
 

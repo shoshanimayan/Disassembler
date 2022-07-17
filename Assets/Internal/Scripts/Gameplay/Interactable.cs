@@ -22,7 +22,10 @@ namespace Gameplay
 			_interactable = interact;
 		}
 
-
+		public virtual bool IsInteractable()
+		{
+			return _interactable;
+		}
 	
 
 	}

@@ -245,7 +245,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1187612338283358294, guid: 204508a055dfd644e807bd572be0c813, type: 3}
       propertyPath: _onPresss.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1187612338283358294, guid: 204508a055dfd644e807bd572be0c813, type: 3}
       propertyPath: _onRelease.m_PersistentCalls.m_Calls.Array.size
@@ -7721,7 +7721,7 @@ MonoBehaviour:
   _tutorialButton: {fileID: 90829841}
   _tutorialLever: {fileID: 1843095359}
   _tutorialRotator: {fileID: 1028937855}
-  _tutorialRing: {fileID: 8629639394807399345}
+  _tutorialRing: {fileID: 113193718042064639}
   _tutorialBot: {fileID: 2135813796}
 --- !u!114 &1904374994
 MonoBehaviour:
@@ -7984,6 +7984,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2b756bc58bc7a994880f14e8e11b06aa, type: 3}
   - {fileID: 8300000, guid: cb9a280255c152245afb5e0ad8b7ef6a, type: 3}
   - {fileID: 8300000, guid: 1373c41a8833fc3438f6bf34e7bfb08e, type: 3}
+  - {fileID: 8300000, guid: 1e4271e32a5f62f44903d457e901e419, type: 3}
   _themeClips:
   - {fileID: 8300000, guid: d43ab4a2ae1294451a2e98a28d4185d7, type: 3}
   - {fileID: 8300000, guid: d43ab4a2ae1294451a2e98a28d4185d7, type: 3}
@@ -8388,7 +8389,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 2
-  m_Radius: 0.2
+  m_Radius: 0.1
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -9010,7 +9011,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  _tutorialGoal: 50
+  _tutorialGoal: 1
 --- !u!64 &113193718042064643
 MeshCollider:
   m_ObjectHideFlags: 0
