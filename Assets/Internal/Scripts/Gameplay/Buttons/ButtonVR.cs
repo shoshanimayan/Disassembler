@@ -40,6 +40,15 @@ namespace Gameplay
 		{
 			_button.transform.localPosition = new Vector3(0, 0.015f, 0);
 			_isPressed = false;
+			_interactable = true;
+
+
+		}
+		private void OnDisable()
+		{
+			_button.transform.localPosition = new Vector3(0, 0.015f, 0);
+			_isPressed = false;
+			_interactable = true;
 
 		}
 
@@ -52,6 +61,9 @@ namespace Gameplay
 				_isPressed = true;
 				_presser = other.gameObject;
 				_audioManager.PlayClip("click");
+				_onRelease.Invoke();
+				if (_TurnOffOnEvent)
+				{ gameObject.SetActive(false); }
 				_interactable = false;
 			}
 		}

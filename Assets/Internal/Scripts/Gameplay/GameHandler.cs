@@ -47,7 +47,7 @@ namespace Gameplay
 
 			foreach (Transform i  in spot.transform)
 			{
-				print(i);
+				
 				i.gameObject.SetActive(false);
 				interactables.Add(i);
 			}
@@ -58,8 +58,7 @@ namespace Gameplay
 				randomIndex = Random.Range(0, 3);
 			}
 			_lastindex = randomIndex;
-			print(randomIndex);
-			print(interactables[randomIndex]);
+			
 			spot.SetActive(true);
 			interactables[randomIndex].gameObject.SetActive(true);
 
@@ -77,6 +76,14 @@ namespace Gameplay
 				{
 					EndGame();
 				}
+			}
+		}
+
+		private void ResetSpots()
+		{
+			foreach (var spot in _interactableSpots)
+			{
+				spot.GetComponent<InteractiveSpot>().ResetInteractables();
 			}
 		}
 
@@ -198,7 +205,6 @@ namespace Gameplay
 
 		public void SetRotatedObject(GameObject toRotate)
 		{
-			print(toRotate);
 			_rotationRing.SetRotationObject(toRotate);
 		}
 
@@ -207,7 +213,6 @@ namespace Gameplay
 			SetInteractionAmount(4);
 			foreach (var x in _interactableSpots)
 			{
-				print(x);
 				RandomlySetInteractionSpot(x);
 			}
 			_resetting = false;

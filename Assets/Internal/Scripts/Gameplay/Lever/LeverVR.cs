@@ -14,6 +14,7 @@ namespace Lever
 		//  INSPECTOR VARIABLES      //
 		///////////////////////////////
 		[SerializeField] private UnityEvent _onReachMax;
+		[SerializeField] private bool _TurnOffOnEvent = true;
 
 		///////////////////////////////
 		//  PRIVATE VARIABLES         //
@@ -21,23 +22,35 @@ namespace Lever
 		private bool _activated;
 		private HingeJoint _hinge;
 		private AudioManager _audioManager { get { return AudioManager.Instance; } }
-		[SerializeField] private bool _TurnOffOnEvent = true;
+		private bool _setup;
 
+		private Vector3 _rotation;
+		private Vector3 _postion;
+
+		private bool _initialized;
 		///////////////////////////////
 		//  PRIVATE METHODS           //
 		///////////////////////////////
 		private void OnEnable()
 		{
-			GetComponent<Rigidbody>().isKinematic = false;
-			GetComponent<XRGrabInteractable>().enabled = true;
-			_activated = false;
+
+			ResetLever();
+
+		
+		}
+
+		private void Awake()
+		{
+			_postion = transform.localPosition;
+			_rotation = transform.localEulerAngles;
 			_hinge = GetComponent<HingeJoint>();
-			_hinge.useMotor = true;
+	
+
 		}
 
 		private void DebugAngle()
 		{
-			print(_hinge.angle);
+			//print(_hinge.angle);
 		}
 
 		private void CheckIfReachedMaxAngle()
@@ -45,7 +58,6 @@ namespace Lever
 			if (!_activated &&_interactable)
 			{
 				_activated = true;
-				print(_activated);
 				GetComponent<Rigidbody>().isKinematic = true;
 				GetComponent<XRGrabInteractable>().enabled = false;
 				_audioManager.PlayClip("blip");
@@ -56,27 +68,73 @@ namespace Lever
 					gameObject.SetActive(false);
 
 				}
+				ResetLever();
+				
 			}
 		}
 
 
-
-		private void OnTriggerEnter(Collider other)
+		
+		private void OnCollisionEnter (Collision other)
 		{
-			if (other.tag == "leverLimit")
+			if (other.gameObject.tag == "leverLimit" && _setup)
 			{
-				CheckIfReachedMaxAngle();
+				
+					CheckIfReachedMaxAngle();
+				
+				
+			}
+			if (other.gameObject.tag == "leverTop" && !_setup && !_initialized)
+			{
+				_setup = true;
+				_hinge.useMotor = false;
+				_initialized = true;
+				_rotation = transform.localEulerAngles;
+				_postion = transform.localPosition;
+				GetComponent<Rigidbody>().isKinematic = true;
+
 			}
 		}
-
 		private void OnTriggerStay(Collider other)
 		{
-			if (other.tag == "leverLimit")
+			if (other.tag == "leverLimit" && _setup)
 			{
+
 				CheckIfReachedMaxAngle();
+
+
+			}
+			if (other.tag == "leverTop" && !_setup)
+			{
+				_setup = true;
+				_hinge.useMotor = false;
+				GetComponent<Rigidbody>().isKinematic = true;
+
+
+
 			}
 		}
 
+
+		private void ResetLever()
+		{
+			transform.localPosition = _postion;
+			transform.localEulerAngles = _rotation;
+			_setup = false;
+			if (!_initialized)
+			{
+				_hinge.useMotor = true;
+				GetComponent<Rigidbody>().isKinematic = false;
+			}
+			else {
+				GetComponent<Rigidbody>().isKinematic = true;
+				_setup = true;
+
+			}
+			GetComponent<XRGrabInteractable>().enabled = true;
+			_activated = false;
+			
+		}
 
 		///////////////////////////////
 		//  PUBLIC API               //
@@ -87,10 +145,12 @@ namespace Lever
 			Destroy(gameObject);
 		}
 
+		
+
 		public override void SetInteractable(bool interact)
 		{
 			base.SetInteractable(interact);
-			_hinge.useMotor = false;
+		
 
 		}
 

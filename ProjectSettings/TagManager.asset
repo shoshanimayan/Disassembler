@@ -8,6 +8,7 @@ TagManager:
   - vrkb_image0
   - vrkb_label0
   - leverLimit
+  - leverTop
   layers:
   - Default
   - TransparentFX

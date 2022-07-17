@@ -28,6 +28,7 @@ namespace Gameplay
         private Transform parent;
 
         private AudioManager _audioManager { get { return AudioManager.Instance; } }
+        private GameStateController _gameState { get { return GameStateController.Instance; } }
 
         private XRGrabInteractable _grabInteractor => GetComponent<XRGrabInteractable>();
         ///////////////////////////////
@@ -35,9 +36,12 @@ namespace Gameplay
         ///////////////////////////////
         private void OnEnable()
         {
+            _totalRotation = 0;
             _activated = false;
             _grabInteractor.selectEntered.AddListener(GrabbedBy);
             _grabInteractor.selectExited.AddListener(GrabEnd);
+            transform.parent = parent;
+
         }
         private void OnDisable()
         {
@@ -73,6 +77,7 @@ namespace Gameplay
                 var rotationAngle = GetInteractorRotation(); //gets the current controller angle
                 GetRotationDistance(rotationAngle);
             }
+
         }
 
 
