@@ -117,11 +117,11 @@ namespace Gameplay.Height
         public  void SetInteractable(bool interact)
         {
             _interactable = interact;
-          /*  if (!_initalized)
+           if (!_initalized)
             {
                 _initalized = true;
                 return;
-            }*/
+            }
             ShowHideHandle(interact);
         }
 
@@ -137,6 +137,7 @@ namespace Gameplay.Height
             transform.position += new Vector3(0, change, 0);
         }
 
+    
 
     }
 }

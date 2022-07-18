@@ -57,6 +57,8 @@ namespace Gameplay
         {
             _shouldGetHandRotation = false;
             _requiresStartAngle = true;
+            transform.parent = parent;
+
         }
 
         private void GrabbedBy(SelectEnterEventArgs arg0)
@@ -66,6 +68,7 @@ namespace Gameplay
 
             _shouldGetHandRotation = true;
             _startAngle = 0f;
+            transform.parent = parent;
 
         }
 

@@ -6,6 +6,7 @@ using General;
 using Gameplay;
 using Tutorial;
 using Menu;
+using Particles;
 
 namespace Animation
 {
@@ -30,7 +31,8 @@ namespace Animation
 		private TutorialHandler _tutorialHandler { get { return TutorialHandler.Instance; } }
 		private AudioManager _audioManager { get { return AudioManager.Instance; } }
 		private MenuHandler _menuHandler { get { return MenuHandler.Instance; } }
-
+		private ParticleManager _particleManager { get { return ParticleManager.Instance; } }
+		
 		///////////////////////////////
 		//  PRIVATE METHODS           //
 		///////////////////////////////
@@ -79,16 +81,22 @@ namespace Animation
 		public void SetMenuHeadActive(bool act)
 		{
 			_menuBot.SetActive(act);
+			_particleManager.PlayParticles();
+
 		}
 
 		public void SetTutorialHeadActive(bool act)
 		{
 			_tutorialBot.SetActive(act);
+			_particleManager.PlayParticles();
 		}
 
 		public void SetGameHeadActive(bool act)
 		{
 			_gameBot.SetActive(act);
+			_particleManager.PlayParticles();
+
+
 		}
 
 
