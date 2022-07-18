@@ -45,6 +45,8 @@ namespace General
 		//  PRIVATE VARIABLES         //
 		///////////////////////////////
 
+		private string _dataPath = Application.persistentDataPath + "/player.fun";
+
 		private string _playerId;
 		private int _highScore=0;
 		private GameState _state=GameState.Load;
@@ -87,11 +89,17 @@ namespace General
 
 		private bool LoadGame()
 		{
-
-			if (File.Exists(Application.persistentDataPath + "/MySaveData.txt"))
+			print(_dataPath);
+			if (File.Exists(_dataPath))
 			{
+				print(" file found: " + File.Exists(_dataPath).ToString());
 
-				string saveString = File.ReadAllText(Application.persistentDataPath + "/MySaveData.txt");
+				BinaryFormatter formatter = new BinaryFormatter();
+				FileStream stream = new FileStream(_dataPath, FileMode.Open);
+				string saveString = formatter.Deserialize(stream) as string;
+				stream.Close();
+				print(saveString);
+
 				SaveData data = JObject.Parse(saveString).ToObject<SaveData>();
 				PlayerId = data.PlayerId;
 				_highScore = data.HighScore;
@@ -151,7 +159,6 @@ namespace General
 
 							break;
 						case GameState.Menu:
-							_telaportController.ResetRig();
 							_settings.ToggleMovementAllowed(true);
 							_audioManager.PlayMainTheme();
 							_UIController.ToggleLoadingUI(false);
@@ -169,6 +176,7 @@ namespace General
 
 							break;
 						case GameState.Tutorial:
+							_telaportController.ResetRig();
 							_settings.ToggleMovementAllowed(true);
 							_audioManager.PlayGameTheme();
 							_UIController.ToggleLoadingUI(false);
@@ -185,9 +193,16 @@ namespace General
 
 		public void SaveGame()
 		{
+			BinaryFormatter formatter = new BinaryFormatter();
+
 			SaveData data = new SaveData(_highScore,_playerId,_heightHandler.GetHeightChange(),_tutorialCompleted);
 			string content = JsonConvert.SerializeObject(data);
-			File.WriteAllText(Application.persistentDataPath + "/MySaveData.txt", content);
+			print(content);
+			print("saved at " + _dataPath);
+			FileStream stream = new FileStream(_dataPath, FileMode.Create);
+			formatter.Serialize(stream, content);
+			stream.Close();
+			//File.WriteAllText(Application.persistentDataPath + "/DisData.txt", content);
 
 		}
 
