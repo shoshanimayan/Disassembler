@@ -75,13 +75,10 @@ namespace General
 			if(!LoadGame())
 			{
 
-#if UNITY_EDITOR
 
-				PlayerId = "unityEditor";
+				PlayerId = "player";
 
-#else
-				 PlayerId = "player";
-#endif
+
 				SaveGame();
 			}
 
@@ -150,7 +147,8 @@ namespace General
 						case GameState.Load:
 							_settings.ToggleMovementAllowed(false);
 							_UIController.ToggleLoadingUI(true);
-						
+							_heightHandler.ShowHideHandle(false);
+
 							break;
 						case GameState.Menu:
 							_telaportController.ResetRig();
@@ -158,7 +156,7 @@ namespace General
 							_audioManager.PlayMainTheme();
 							_UIController.ToggleLoadingUI(false);
 							_animationController.SetMenuRobot();
-							
+							_heightHandler.ShowHideHandle(true);
 							break;
 						case GameState.Play:
 
@@ -167,12 +165,16 @@ namespace General
 							_UIController.ToggleLoadingUI(false);
 
 							_animationController.SetGameRobot();
+							_heightHandler.ShowHideHandle(false);
+
 							break;
 						case GameState.Tutorial:
 							_settings.ToggleMovementAllowed(true);
 							_audioManager.PlayGameTheme();
 							_UIController.ToggleLoadingUI(false);
 							_tutorialHandler.StartTutorial();
+							_heightHandler.ShowHideHandle(false);
+
 							break;
 						
 					}

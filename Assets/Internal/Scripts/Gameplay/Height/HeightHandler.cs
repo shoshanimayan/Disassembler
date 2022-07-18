@@ -98,18 +98,7 @@ namespace Gameplay.Height
             }
         }
 
-        private void ShowHideHandle(bool show)
-        {
-            if (show)
-            {
-                _handle.DOMoveZ(_handle.position.z - .2f, .5f);
-
-            }
-            else 
-            {
-                _handle.DOMoveZ(_handle.position.z+.2f,.5f);
-            }
-        }
+       
 
         ///////////////////////////////
         //  PUBLIC API               //
@@ -117,12 +106,19 @@ namespace Gameplay.Height
         public  void SetInteractable(bool interact)
         {
             _interactable = interact;
-           if (!_initalized)
+        
+        }
+        public void ShowHideHandle(bool show)
+        {
+            if (show)
             {
-                _initalized = true;
-                return;
+                _handle.DOMoveZ(_handle.position.z - .2f, .5f);
+
             }
-            ShowHideHandle(interact);
+            else
+            {
+                _handle.DOMoveZ(_handle.position.z + .2f, .5f);
+            }
         }
 
         public float GetHeightChange()
