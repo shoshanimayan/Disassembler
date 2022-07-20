@@ -51,6 +51,8 @@ namespace Gameplay
 
 		private void GrabEnd(SelectExitEventArgs arg0)
 		{
+			_interactor.EndManualInteraction();
+			
 			_interactor = null;
 			_followHand = false;
 			_handOrigin = Vector3.zero;

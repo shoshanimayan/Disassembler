@@ -45,12 +45,11 @@ namespace General
 		//  PRIVATE VARIABLES         //
 		///////////////////////////////
 
-		private string _dataPath = Application.persistentDataPath + "/player.fun";
+		private string _dataPath;
 
 		private string _playerId;
 		private int _highScore=0;
 		private GameState _state=GameState.Load;
-		private string _key;
 		private bool _subMenuOn = false;
 		private bool _tutorialCompleted;
 		private  SceneLoader _sceneLoader { get { return SceneLoader.Instance; } }
@@ -71,10 +70,10 @@ namespace General
 
 		private void Awake()
 		{
+			_dataPath= Application.persistentDataPath + "/player.fun";
 
-
-		//check if playerid is saved and load it in else create
-			if(!LoadGame())
+			//check if playerid is saved and load it in else create
+			if (!LoadGame())
 			{
 
 
@@ -89,22 +88,20 @@ namespace General
 
 		private bool LoadGame()
 		{
-			print(_dataPath);
 			if (File.Exists(_dataPath))
 			{
-				print(" file found: " + File.Exists(_dataPath).ToString());
 
 				BinaryFormatter formatter = new BinaryFormatter();
 				FileStream stream = new FileStream(_dataPath, FileMode.Open);
 				string saveString = formatter.Deserialize(stream) as string;
 				stream.Close();
-				print(saveString);
 
 				SaveData data = JObject.Parse(saveString).ToObject<SaveData>();
-				PlayerId = data.PlayerId;
 				_highScore = data.HighScore;
 				_heightHandler.SetInitalHeight(data.HeightOffset);
 				_tutorialCompleted = data.TutorialCompleted;
+				PlayerId = data.PlayerId;
+
 				Debug.Log("Game data loaded!");
 				return true;
 			}
@@ -197,8 +194,7 @@ namespace General
 
 			SaveData data = new SaveData(_highScore,_playerId,_heightHandler.GetHeightChange(),_tutorialCompleted);
 			string content = JsonConvert.SerializeObject(data);
-			print(content);
-			print("saved at " + _dataPath);
+		
 			FileStream stream = new FileStream(_dataPath, FileMode.Create);
 			formatter.Serialize(stream, content);
 			stream.Close();

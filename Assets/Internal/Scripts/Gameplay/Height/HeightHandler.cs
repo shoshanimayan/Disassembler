@@ -112,11 +112,17 @@ namespace Gameplay.Height
         {
             if (show)
             {
+                if (!_initalized)
+                {
+                    _initalized = true;
+                    return;
+                }
                 _handle.DOMoveZ(_handle.position.z - .2f, .5f);
 
             }
             else
             {
+                _initalized = true;
                 _handle.DOMoveZ(_handle.position.z + .2f, .5f);
             }
         }

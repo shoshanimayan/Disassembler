@@ -63,7 +63,7 @@ namespace General
                 _telaportController.ResetRig();
                 if (_gameState.GetTutorialCompletedStatus())
                 {
-                    _gameState.GoToTutorial();
+                    _gameState.GoToMenu();
                 }
                 else
                 {
