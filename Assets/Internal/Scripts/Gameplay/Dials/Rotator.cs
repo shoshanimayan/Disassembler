@@ -7,18 +7,18 @@ namespace Gameplay
 
     public class Rotator : Interactable
     {
-        ///////////////////////////////
+        
         //  INSPECTOR VARIABLES      //
-        ///////////////////////////////
+        
         [SerializeField] Transform _linkedDial;
         [SerializeField] private int _snapRotationAmount = 25;
         [SerializeField] private float _angleTolerance;
         [SerializeField] private float _goalRotationPercentage;
         [SerializeField] private UnityEvent _onReachedRotation;
         [SerializeField] private bool _TurnOffOnEvent = true;
-        ///////////////////////////////
+        
         //  PRIVATE VARIABLES         //
-        ///////////////////////////////
+        
         private XRBaseInteractor _interactor;
         private float _startAngle;
         private bool _requiresStartAngle = true;
@@ -31,9 +31,9 @@ namespace Gameplay
         private GameStateController _gameState { get { return GameStateController.Instance; } }
 
         private XRGrabInteractable _grabInteractor => GetComponent<XRGrabInteractable>();
-        ///////////////////////////////
+        
         //  PRIVATE METHODS           //
-        ///////////////////////////////
+        
         private void OnEnable()
         {
             _totalRotation = 0;
@@ -178,9 +178,9 @@ namespace Gameplay
             }
         }
 
-        ///////////////////////////////
+        
         //  PUBLIC API               //
-        ///////////////////////////////
+       
 
         public float GetInteractorRotation() => _interactor.GetComponent<Transform>().eulerAngles.z;
 

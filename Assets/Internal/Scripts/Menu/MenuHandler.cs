@@ -10,9 +10,9 @@ namespace Menu
 	public class MenuHandler: Singleton<MenuHandler>
 	{
 
-		///////////////////////////////
+		
 		//  INSPECTOR VARIABLES      //
-		///////////////////////////////
+		
 		[SerializeField] TextMeshProUGUI _settingsText;
 		[SerializeField] private CanvasGroup _canvas;
 		[SerializeField] TextMeshProUGUI _highScoreText;
@@ -20,14 +20,14 @@ namespace Menu
 		[SerializeField] TextMeshProUGUI[] _winMessages;
 
 
-		///////////////////////////////
+		
 		//  PRIVATE VARIABLES         //
-		///////////////////////////////
+		
 		private SettingsController _settings { get { return SettingsController.Instance; } }
 
-		///////////////////////////////
+		
 		//  PRIVATE METHODS           //
-		///////////////////////////////
+		
 		private void Awake()
 		{
 			_winMessages[1].gameObject.SetActive(false);
@@ -37,9 +37,9 @@ namespace Menu
 		}
 
 	
-		///////////////////////////////
+		
 		//  PUBLIC API               //
-		///////////////////////////////
+	
 		public void  SwitchTurnSettingUI()
 		{
 			_settingsText.text= _settings.SwitchTurnProviderUI();

@@ -15,24 +15,24 @@ namespace General
 {
     public class SceneLoader : Singleton<SceneLoader>
     {
-        /////////////////////////
+        
         // INSPECTOR VARIABLES //
-        /////////////////////////
+        
         [SerializeField]
         private AssetReference firstScene;
         [SerializeField]
 
-        /////////////////////////
+        
         //  PRIVATE VARIABLES  //
-        /////////////////////////
+        
         private AsyncOperationHandle<SceneInstance> _handle;
         private bool _unloaded;
         private  GameStateController _gameState { get { return GameStateController.Instance; } }
         private TelaportController _telaportController { get { return TelaportController.Instance; } }
 
-        ///////////////////////
+        
         //  PRIVATE METHODS  //
-        ///////////////////////
+        
         private void Awake()
         {
             Application.targetFrameRate = 90;
@@ -90,9 +90,9 @@ namespace General
             };
         }
 
-        //////////////////
+        
         //  PUBLIC API  //
-        /////////////////
+       
 
         public void FirstLoad()
         {

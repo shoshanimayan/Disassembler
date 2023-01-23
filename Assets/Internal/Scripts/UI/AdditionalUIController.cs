@@ -6,22 +6,13 @@ namespace UI
 	public class AdditionalUIController: Singleton<AdditionalUIController>
 	{
 
-		///////////////////////////////
 		//  INSPECTOR VARIABLES      //
-		///////////////////////////////
+		
 		[SerializeField] private GameObject _loadingCanvas;
 		[SerializeField] private GameObject _loadingSphere;
-		///////////////////////////////
-		//  PRIVATE VARIABLES         //
-		///////////////////////////////
-
-		///////////////////////////////
-		//  PRIVATE METHODS           //
-		///////////////////////////////
-
-		///////////////////////////////
+	
 		//  PUBLIC API               //
-		///////////////////////////////
+		
 		public void ToggleLoadingUI(bool active) 
 		{
 			_loadingCanvas.SetActive(active);

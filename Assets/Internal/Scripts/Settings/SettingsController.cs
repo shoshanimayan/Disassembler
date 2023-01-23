@@ -7,19 +7,18 @@ namespace Settings
 	public class SettingsController : Singleton<SettingsController>
 	{
 
-		///////////////////////////////
+		
 		//  INSPECTOR VARIABLES      //
-		///////////////////////////////
+		
 		[SerializeField] private ActionBasedSnapTurnProvider _snapTurn;
 		[SerializeField] private ActionBasedContinuousTurnProvider _contTurn;
 		[SerializeField] private ActionBasedContinuousMoveProvider _moveProvider;
-		///////////////////////////////
-		//  PRIVATE VARIABLES         //
-		///////////////////////////////
 		
-		///////////////////////////////
+		
+		
+		
 		//  PRIVATE METHODS           //
-		///////////////////////////////
+		
 		private void Awake()
 		{
 			_moveProvider.enabled = false;
@@ -31,9 +30,9 @@ namespace Settings
 			_snapTurn.enabled = !_snapTurn.enabled;
 
 		}
-		///////////////////////////////
+		
 		//  PUBLIC API               //
-		///////////////////////////////
+		
 
 		public void ToggleMovementAllowed(bool active)
 		{

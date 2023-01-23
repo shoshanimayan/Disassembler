@@ -10,15 +10,15 @@ namespace UI
 	public class GameUIHandler: Singleton<GameUIHandler>
 	{
 
-		///////////////////////////////
+		
 		//  INSPECTOR VARIABLES      //
-		///////////////////////////////
+		
 		[SerializeField] TextMeshProUGUI _scoreText;
 		[SerializeField] TextMeshProUGUI _timerText;
 		[SerializeField] private CanvasGroup _canvas;
-		///////////////////////////////
+		
 		//  PRIVATE VARIABLES         //
-		///////////////////////////////
+		
 
 		private GameHandler _gameHandler { get { return GameHandler.Instance; } }
 
@@ -36,9 +36,9 @@ namespace UI
 			}
 			
 		}
-		///////////////////////////////
+		
 		//  PRIVATE METHODS           //
-		///////////////////////////////
+		
 		private string TimeToString(float t)
 		{
 			float minutes = Mathf.Floor(t / 60);
@@ -57,9 +57,9 @@ namespace UI
 			else { sec = Mathf.RoundToInt(seconds).ToString(); }
 			return min + ":" + sec;
 		}
-		///////////////////////////////
+		
 		//  PUBLIC API               //
-		///////////////////////////////
+
 
 		public void SetScoreText(int score)
 		{

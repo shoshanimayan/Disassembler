@@ -10,17 +10,15 @@ namespace Gameplay
 	public class TelaportController: Singleton<TelaportController>
 	{
 
-		///////////////////////////////
-		//  INSPECTOR VARIABLES      //
-		///////////////////////////////
+		
 
-		///////////////////////////////
+		
 		//  PRIVATE VARIABLES         //
-		///////////////////////////////
+		
 		private XRLoader _xrLoader;
-		///////////////////////////////
+		
 		//  PRIVATE METHODS           //
-		///////////////////////////////
+		
 
 		private void Start()
 		{
@@ -63,9 +61,9 @@ namespace Gameplay
 				Debug.LogError($"XRInput: {xrInput != null}");
 			}
 		}
-		///////////////////////////////
+	
 		//  PUBLIC API               //
-		///////////////////////////////
+		
 		public void ResetRig()
 		{
 			StartCoroutine(ResetPosition());

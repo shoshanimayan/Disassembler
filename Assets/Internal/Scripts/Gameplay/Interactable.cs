@@ -7,16 +7,16 @@ namespace Gameplay
 	{
 
 		
-		///////////////////////////////
+
 		//  PRIVATE VARIABLES         //
-		///////////////////////////////
+		
 				protected bool _interactable;
 
 	
 
-		///////////////////////////////
+		
 		//  PUBLIC API               //
-		///////////////////////////////
+		
 		public virtual void SetInteractable(bool interact)
 		{
 			_interactable = interact;

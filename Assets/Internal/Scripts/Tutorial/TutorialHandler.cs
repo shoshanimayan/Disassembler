@@ -13,18 +13,18 @@ namespace Tutorial
 	public class TutorialHandler: Singleton<TutorialHandler>
 	{
 
-		///////////////////////////////
+		
 		//  INSPECTOR VARIABLES      //
-		///////////////////////////////
+		
 		[SerializeField] GameObject _tutorialButton;
 		[SerializeField] GameObject _tutorialLever;
 		[SerializeField] GameObject _tutorialRotator;
 		[SerializeField] GameObject _tutorialRing;
 		[SerializeField] GameObject _tutorialBot;
 
-		///////////////////////////////
+		
 		//  PRIVATE VARIABLES         //
-		///////////////////////////////
+		
 		private int _step = 0;
 
 		private ButtonVR _button;
@@ -37,9 +37,9 @@ namespace Tutorial
 		private GameStateController _gameState { get { return GameStateController.Instance; } }
 		private AnimationController _animationController { get { return AnimationController.Instance; } }
 
-		///////////////////////////////
+		
 		//  PRIVATE METHODS           //
-		///////////////////////////////
+		
 		private void Start()
 		{
 			_button = _tutorialButton.GetComponent<ButtonVR>();
@@ -48,9 +48,9 @@ namespace Tutorial
 			_ring = _tutorialRing.GetComponent<RotationRing>();
 		}
 
-		///////////////////////////////
+		
 		//  PRIVATE METHODS           //
-		///////////////////////////////
+		
 
 		private void EnableInteraction()
 		{
@@ -80,9 +80,9 @@ namespace Tutorial
 			
 		}
 
-		///////////////////////////////
+		
 		//  PUBLIC API               //
-		///////////////////////////////
+		
 
 		public int TutorialStep
 		{

@@ -9,20 +9,20 @@ namespace UI
 	public class LaserPointerController: MonoBehaviour
 	{
 
-        ///////////////////////////////
+        
         //  INSPECTOR VARIABLES      //
-        ///////////////////////////////
+        
         [SerializeField] GameObject _reticle;
-        ///////////////////////////////
+        
         //  PRIVATE VARIABLES         //
-        ///////////////////////////////
+        
         private XRRayInteractor _xrray;
         private LineRenderer _linerender;
         private XRInteractorLineVisual _xrLineVis;
         private GameObject _hand;
-        ///////////////////////////////
+        
         //  PRIVATE METHODS           //
-        ///////////////////////////////
+        
         private void Start()
         {
             _hand = gameObject;

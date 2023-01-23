@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
 {
-    /////////////////////////
+    
     //  PRIVATE VARIABLES  //
-    /////////////////////////
+    
     // Check to see if we're about to be destroyed.
     private static bool m_ShuttingDown = false;
     private static object m_Lock = new object();
     private static T m_Instance;
 
-    ///////////////////////
+    
     //  PRIVATE METHODS  //
-    ///////////////////////
+    
 
     /// <summary>
     /// Access singleton instance through this propriety.
@@ -55,9 +55,9 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         }
     }
 
-    ///////////////////////
+    
     //  PRIVATE METHODS  //
-    ///////////////////////
+   
     private void OnApplicationQuit()
     {
         m_ShuttingDown = true;

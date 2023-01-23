@@ -6,17 +6,15 @@ namespace Gameplay
 	public class InteractiveSpot: MonoBehaviour
 	{
 
-		///////////////////////////////
-		//  INSPECTOR VARIABLES      //
-		///////////////////////////////
 
-		///////////////////////////////
+
+		
 		//  PRIVATE VARIABLES         //
-		///////////////////////////////
+		
 		private List<Transform> _interactables;
-		///////////////////////////////
+		
 		//  PRIVATE METHODS           //
-		///////////////////////////////
+		
 		private void Awake()
 		{
 			_interactables = new List<Transform>();
@@ -26,9 +24,9 @@ namespace Gameplay
 				_interactables.Add(i);
 			}
 		}
-		///////////////////////////////
+		
 		//  PUBLIC API               //
-		///////////////////////////////
+	
 		public void ResetInteractables()
 		{
 			foreach (var i in _interactables)

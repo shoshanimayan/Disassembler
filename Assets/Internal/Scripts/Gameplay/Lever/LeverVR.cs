@@ -10,15 +10,15 @@ namespace Lever
 	public class LeverVR: Interactable
 	{
 
-		///////////////////////////////
+		
 		//  INSPECTOR VARIABLES      //
-		///////////////////////////////
+		
 		[SerializeField] private UnityEvent _onReachMax;
 		[SerializeField] private bool _TurnOffOnEvent = true;
 
-		///////////////////////////////
+		
 		//  PRIVATE VARIABLES         //
-		///////////////////////////////
+		
 		private bool _activated;
 		private HingeJoint _hinge;
 		private AudioManager _audioManager { get { return AudioManager.Instance; } }
@@ -28,9 +28,9 @@ namespace Lever
 		private Vector3 _postion;
 
 		private bool _initialized;
-		///////////////////////////////
+		
 		//  PRIVATE METHODS           //
-		///////////////////////////////
+		
 		private void OnEnable()
 		{
 
@@ -136,9 +136,9 @@ namespace Lever
 			
 		}
 
-		///////////////////////////////
+	
 		//  PUBLIC API               //
-		///////////////////////////////
+		
 
 		public void DestroySelf()
 		{

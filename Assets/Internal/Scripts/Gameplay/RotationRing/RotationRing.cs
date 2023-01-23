@@ -11,17 +11,17 @@ namespace Gameplay
 	public class RotationRing: Interactable
 	{
 
-		///////////////////////////////
+		
 		//  INSPECTOR VARIABLES      //
-		///////////////////////////////
+		
 		[SerializeField] private GameObject _objectToRotate;
 		[SerializeField] private float _speed=1;
 		[SerializeField] private UnityEvent _tutorialCompleteEvent;
 		[SerializeField] private float _tutorialGoal;
 
-		///////////////////////////////
+		
 		//  PRIVATE VARIABLES         //
-		///////////////////////////////
+		
 		private XRGrabInteractable _grabInteractor => GetComponent<XRGrabInteractable>();
 		private XRBaseInteractor _interactor;
 		private bool _followHand;
@@ -34,9 +34,9 @@ namespace Gameplay
 
 		private GameStateController _gameState { get { return GameStateController.Instance; } }
 
-		///////////////////////////////
+		
 		//  PRIVATE METHODS           //
-		///////////////////////////////
+		
 
 		private void OnEnable()
 		{
@@ -112,9 +112,9 @@ namespace Gameplay
 			}
 
 		}
-		///////////////////////////////
+		
 		//  PUBLIC API               //
-		///////////////////////////////
+		
 		public void SetRotationObject(GameObject obj)
 		{
 			_objectToRotate = obj;

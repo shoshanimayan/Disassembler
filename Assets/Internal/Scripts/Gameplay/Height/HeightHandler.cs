@@ -9,15 +9,15 @@ namespace Gameplay.Height
 	public class HeightHandler: Singleton<HeightHandler>
     {
 
-		///////////////////////////////
+		
 		//  INSPECTOR VARIABLES      //
-		///////////////////////////////
+		
 		[SerializeField] GameObject[] _toBeAdjusted;
         [SerializeField] Transform _handle;
 
-        ///////////////////////////////
+        
         //  PRIVATE VARIABLES         //
-        ///////////////////////////////
+        
         private XRGrabInteractable _grabInteractor => GetComponent<XRGrabInteractable>();
         private XRBaseInteractor _interactor;
 
@@ -27,9 +27,9 @@ namespace Gameplay.Height
         private bool _initalized;
         private Vector3 _handOrigin;
 
-        ///////////////////////////////
+        
         //  PRIVATE METHODS           //
-        ///////////////////////////////
+        
 
         private void Awake()
         {
@@ -100,9 +100,9 @@ namespace Gameplay.Height
 
        
 
-        ///////////////////////////////
+        
         //  PUBLIC API               //
-        ///////////////////////////////
+      
         public  void SetInteractable(bool interact)
         {
             _interactable = interact;
